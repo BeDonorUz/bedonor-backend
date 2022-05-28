@@ -9,6 +9,8 @@ services:
       - project
     ports:
       - 5021:3000
+    volumes:
+      - .:/app
     env_file:
       .env
 
