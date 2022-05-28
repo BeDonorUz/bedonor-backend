@@ -30,6 +30,7 @@ specifiers:
   ts-node: ^10.0.0
   tsconfig-paths: ^3.10.1
   typescript: ^4.3.5
+  webpack: ^5.0.0
 
 dependencies:
   '@nestjs/common': 8.4.5_e7ea248743279784063e3708d703abc5
@@ -59,10 +60,11 @@ devDependencies:
   source-map-support: 0.5.21
   supertest: 6.2.3
   ts-jest: 27.1.5_503bfb847900ba876dcec7308e1e7b81
-  ts-loader: 9.3.0_typescript@4.7.2
+  ts-loader: 9.3.0_typescript@4.7.2+webpack@5.72.1
   ts-node: 10.8.0_e54576a33e16b25f43fcd3617c6c86ca
   tsconfig-paths: 3.14.1
   typescript: 4.7.2
+  webpack: 5.72.1
 
 packages:
 
@@ -5182,7 +5184,7 @@ packages:
       yargs-parser: 20.2.9
     dev: true
 
-  /ts-loader/9.3.0_typescript@4.7.2:
+  /ts-loader/9.3.0_typescript@4.7.2+webpack@5.72.1:
     resolution: {integrity: sha512-2kLLAdAD+FCKijvGKi9sS0OzoqxLCF3CxHpok7rVgCZ5UldRzH0TkbwG9XECKjBzHsAewntC5oDaI/FwKzEUog==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -5194,6 +5196,7 @@ packages:
       micromatch: 4.0.5
       semver: 7.3.7
       typescript: 4.7.2
+      webpack: 5.72.1
     dev: true
 
   /ts-node/10.8.0_e54576a33e16b25f43fcd3617c6c86ca:
