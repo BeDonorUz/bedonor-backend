@@ -6,8 +6,7 @@ pipelines:
             runs-on: 
               - 'self.hosted'  
             script:
-              - echo $(aws ecr get-login --no-include-email --region eu-central-1)  > login.sh
-              - sh login.sh
+              - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $DOCKER_ECR_REPO_URL
               - docker build -t $DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} .
               - docker tag $DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} $DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
               - docker push $DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
