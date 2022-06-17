@@ -2,12 +2,12 @@ pipelines:
   default:
         - step:
             name: Build Docker Image
-            image: atlassian/default-image:3
+            image: atlassian/pipelines-awscli
             runs-on: 
               - 'self.hosted'  
             script:
-              - apt-get update && apt-get install -y awscli
-              - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $DOCKER_ECR_REPO_URL
+              - echo $(aws ecr get-login --no-include-email --region us-west-2)  > login.sh
+              - sh login.sh
               - docker build -t $DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} .
               - docker tag $DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} $DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
               - docker push $DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
