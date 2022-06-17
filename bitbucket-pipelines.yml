@@ -11,7 +11,7 @@ pipelines:
               - docker tag $DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} $DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
               - docker push $DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
         - step:
-            name: Deploy to Production
+            name: Deploy to Prod
             deployment: Production
             script:
               - echo DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}
