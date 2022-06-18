@@ -15,7 +15,7 @@ pipelines:
             deployment: test
             image: bearengineer/awscli-kubectl
             script:
-              - aws eks --region eu-central-1 update-kubeconfig --name prod-cluster
+              - aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
               - kubectl set image --namespace=$K8s_NAMESPACE deployment/$K8s_DEPLOYMENT_NAME $K8s_DEPLOYMENT_NAME=$DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT}   --local=false
 options:
   docker: true
