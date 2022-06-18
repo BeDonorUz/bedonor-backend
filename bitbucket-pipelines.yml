@@ -22,3 +22,4 @@ pipelines:
               - kubectl set image deployment/$K8s_DEPLOYMENT_NAME $K8s_DEPLOYMENT_NAME=$DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} --user=$K8s_USERNAME --local=false
 options:
   docker: true
+  
