@@ -13,14 +13,10 @@ pipelines:
         - step:
             name: Deploy to Kubernetes
             deployment: test
-            image: atlassian/pipelines-kubectl
+            image: bearengineer/awscli-kubectl
             script:
-              - echo $CRT > ca.crt
-              - kubectl config set-cluster kubernetes --certificate-authority=ca.crt --server=$K8s_SERVER_URL
-              - kubectl config set-credentials $K8s_USERNAME --token=$K8s_USER_TOKEN
-              - kubectl config set-context aws --cluster=kubernetes --namespace=$K8s_NAMESPACE --user=$K8s_USERNAME
-              - kubectl config use-context aws --user=$K8s_USERNAME
-              - kubectl set image deployment/$K8s_DEPLOYMENT_NAME $K8s_DEPLOYMENT_NAME=$DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} --user=$K8s_USERNAME --local=false
+              - aws eks --region eu-central-1 update-kubeconfig --name prod-cluster
+              - kubectl set image deployment/$K8s_DEPLOYMENT_NAME $K8s_DEPLOYMENT_NAME=$DOCKER_ECR_REPO_URL/$DOCKER_IMAGE_NAME:${BITBUCKET_COMMIT} --namespace=K8s_NAMESPACE  --user=$K8s_USERNAME --local=false
 options:
   docker: true
   
