@@ -15,6 +15,7 @@ pipelines:
             deployment: test
             image: atlassian/pipelines-kubectl
             script:
+              - echo $CRT > ca.crt
               - kubectl config set-cluster kubernetes --certificate-authority=ca.crt --server=$K8s_SERVER_URL
               - kubectl config set-credentials $K8s_USERNAME --token=$K8s_USER_TOKEN
               - kubectl config set-context aws --cluster=kubernetes --namespace=$K8s_NAMESPACE --user=$K8s_USERNAME
