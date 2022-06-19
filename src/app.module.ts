@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import * as config from 'ormconfig';
 import { UsersModule } from './users/users.module';
 
+console.log(config);
 @Module({
   imports: [TypeOrmModule.forRoot(config as TypeOrmModuleOptions), UsersModule],
   controllers: [AppController],
