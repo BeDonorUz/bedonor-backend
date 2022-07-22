@@ -18,13 +18,21 @@ model User {
   firstName   String @db.VarChar(64)
   lastName    String @db.VarChar(64)
   patronymic  String? @db.VarChar(64)
+  donations   Donation[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  donations   Donation[]
+}
+
+enum DonationType {
+  WHOLE_BLOOD
+  PLASMA
 }
 
 model Donation {
   id        Int @id @default(autoincrement())
+  type      DonationType
   userId    Int
   user      User @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
