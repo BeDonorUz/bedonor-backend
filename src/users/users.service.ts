@@ -6,7 +6,7 @@ import { User, Prisma } from '@prisma/client';
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: Prisma.UserCreateInput): Promise<User> {
+  async create(data: Prisma.UserUncheckedCreateInput): Promise<User> {
     return this.prisma.user.create({ data });
   }
 

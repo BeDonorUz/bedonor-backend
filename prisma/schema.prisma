@@ -12,12 +12,27 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(dbgenerated("uuid_generate_v4()"))
+  id          Int @id @default(autoincrement())
   login       String @db.VarChar(64) @unique
   password    String @db.VarChar(128)
   firstName   String @db.VarChar(64)
   lastName    String @db.VarChar(64)
   patronymic  String? @db.VarChar(64)
+  donations   Donation[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum DonationType {
+  WHOLE_BLOOD
+  PLASMA
+}
+
+model Donation {
+  id        Int @id @default(autoincrement())
+  type      DonationType
+  userId    Int
+  user      User @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
