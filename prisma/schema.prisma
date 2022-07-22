@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(dbgenerated("uuid_generate_v4()"))
+  id          Int @id @default(autoincrement())
   login       String @db.VarChar(64) @unique
   password    String @db.VarChar(128)
   firstName   String @db.VarChar(64)
@@ -20,4 +20,11 @@ model User {
   patronymic  String? @db.VarChar(64)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  donations   Donation[]
+}
+
+model Donation {
+  id        Int @id @default(autoincrement())
+  userId    Int
+  user      User @relation(fields: [userId], references: [id])
 }

@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- CreateTable
 CREATE TABLE "User" (
-    "id" TEXT NOT NULL DEFAULT uuid_generate_v4(),
+    "id" SERIAL NOT NULL,
     "login" VARCHAR(64) NOT NULL,
     "password" VARCHAR(128) NOT NULL,
     "firstName" VARCHAR(64) NOT NULL,
