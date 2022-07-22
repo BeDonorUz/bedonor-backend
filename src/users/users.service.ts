@@ -1,38 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { FindConditions, Repository } from 'typeorm';
-import { User } from './user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { User, Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
-  ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreateUserDto): Promise<User> {
-    const user = this.usersRepository.create(dto);
-    return this.usersRepository.save(user);
+  async create(data: Prisma.UserCreateInput): Promise<User> {
+    return this.prisma.user.create({ data });
   }
 
-  async findOne(filter: FindConditions<User>): Promise<User> {
-    return this.usersRepository.findOneOrFail(filter);
+  async findOne(where: Prisma.UserWhereUniqueInput): Promise<User> {
+    return this.prisma.user.findUniqueOrThrow({ where });
   }
 
-  async findMany(filter?: FindConditions<User>): Promise<User[]> {
-    return this.usersRepository.find(filter);
+  async findMany(where?: Prisma.UserWhereInput): Promise<User[]> {
+    return this.prisma.user.findMany({ where });
   }
 
-  async update(id: User['id'], dto: UpdateUserDto): Promise<User> {
-    const user = await this.findOne({ id });
-    this.usersRepository.merge(user, dto);
-    return this.usersRepository.save(user);
+  async update(
+    where: Prisma.UserWhereUniqueInput,
+    data: Prisma.UserUpdateInput,
+  ): Promise<User> {
+    return this.prisma.user.update({ data, where });
   }
 
-  async remove(filter: FindConditions<User>): Promise<User> {
-    const user = await this.findOne(filter);
-    return this.usersRepository.softRemove(user);
+  async delete(where: Prisma.UserWhereUniqueInput): Promise<User> {
+    return this.prisma.user.delete({ where });
   }
 }
