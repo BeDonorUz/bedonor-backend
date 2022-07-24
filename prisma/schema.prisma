@@ -41,6 +41,8 @@ model City {
   id          Int @id @default(autoincrement())
   name        String @db.VarChar(64)
   centers     Center[]
+  latitude    Decimal
+  longitude   Decimal
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -50,6 +52,8 @@ model Center {
   name        String @db.VarChar(128)
   cityId      Int
   city        City @relation(fields: [cityId], references: [id])
+  latitude    Decimal
+  longitude   Decimal
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

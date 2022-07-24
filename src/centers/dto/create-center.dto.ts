@@ -1,6 +1,7 @@
 import {
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsPositive,
   IsString,
   MaxLength,
@@ -11,6 +12,12 @@ export class CreateCenterDto {
   @IsNotEmpty()
   @MaxLength(128)
   name: string;
+
+  @IsNumber()
+  latitude: number;
+
+  @IsNumber()
+  longitude: number;
 
   @IsInt()
   @IsPositive()
