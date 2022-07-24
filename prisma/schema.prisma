@@ -39,7 +39,7 @@ model Donation {
 
 model City {
   id          Int @id @default(autoincrement())
-  name        String @db.VarChar(64)
+  name        String @db.VarChar(64) @unique
   centers     Center[]
   latitude    Decimal
   longitude   Decimal
