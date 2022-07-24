@@ -10,4 +10,6 @@ RUN pnpm install
 
 COPY . .
 
+RUN apk add postgresql-client
+
 CMD ["pnpm", "start:dev"]
