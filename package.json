@@ -16,6 +16,7 @@
     "mig:gen": "prisma migrate dev --name",
     "mig:run": "prisma migrate deploy",
     "mig:res": "prisma migrate reset",
+    "seed": "ts-node prisma/seed.ts",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
