@@ -6,13 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Donation } from '@prisma/client';
+import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
 
 @Controller('donations')
+@UseGuards(JwtAuthGuard)
 export class DonationsController {
   constructor(private readonly donationsService: DonationsService) {}
 
