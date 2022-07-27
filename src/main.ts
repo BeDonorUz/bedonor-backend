@@ -2,10 +2,12 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { IdInterceptor } from './utils/interceptors/id.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new IdInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle(`${process.env.APP_NAME} Docs`)

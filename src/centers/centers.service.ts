@@ -7,11 +7,14 @@ export class CentersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: Prisma.CenterUncheckedCreateInput): Promise<Center> {
-    return this.prisma.center.create({ data });
+    return this.prisma.center.create({ data, include: { city: true } });
   }
 
   async findOne(where: Prisma.CenterWhereUniqueInput): Promise<Center> {
-    return this.prisma.center.findUniqueOrThrow({ where });
+    return this.prisma.center.findUniqueOrThrow({
+      where,
+      include: { city: true },
+    });
   }
 
   async findMany(where?: Prisma.CenterWhereInput): Promise<Center[]> {
