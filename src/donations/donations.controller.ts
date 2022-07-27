@@ -8,42 +8,51 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { Donation } from '@prisma/client';
 import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { DonationEntity } from './entities/donation.entity';
 
-@Controller('donations')
+const name: string = 'donations';
+
+@Controller(name)
+@ApiTags(name)
 @UseGuards(JwtAuthGuard)
 export class DonationsController {
   constructor(private readonly donationsService: DonationsService) {}
 
   @Post()
-  async create(@Body() dto: CreateDonationDto): Promise<Donation> {
+  @ApiCreatedResponse({ type: DonationEntity })
+  async create(@Body() dto: CreateDonationDto): Promise<DonationEntity> {
     return this.donationsService.create(dto);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<Donation> {
+  @ApiOkResponse({ type: DonationEntity })
+  async findOne(@Param('id') id: number): Promise<DonationEntity> {
     return this.donationsService.findOne({ id });
   }
 
   @Get()
-  async findMany(): Promise<Donation[]> {
+  @ApiOkResponse({ type: DonationEntity, isArray: true })
+  async findMany(): Promise<DonationEntity[]> {
     return this.donationsService.findMany();
   }
 
   @Patch(':id')
+  @ApiOkResponse({ type: DonationEntity })
   async update(
     @Param('id') id: number,
     @Body() dto: UpdateDonationDto,
-  ): Promise<Donation> {
+  ): Promise<DonationEntity> {
     return this.donationsService.update({ id }, dto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<Donation> {
+  @ApiOkResponse({ type: DonationEntity })
+  async remove(@Param('id') id: number): Promise<DonationEntity> {
     return this.donationsService.delete({ id });
   }
 }

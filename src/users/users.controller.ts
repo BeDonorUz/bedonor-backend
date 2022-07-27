@@ -10,41 +10,46 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiTags } from '@nestjs/swagger';
-import { User } from '@prisma/client';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from './entities/user.entity';
 
-const tag: string = 'users';
+const name: string = 'users';
 
-@Controller(tag)
-@ApiTags(tag)
+@Controller(name)
+@ApiTags(name)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() dto: CreateUserDto): Promise<User> {
+  @ApiCreatedResponse({ type: UserEntity })
+  async create(@Body() dto: CreateUserDto): Promise<UserEntity> {
     return this.usersService.create(dto);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<User> {
+  @ApiOkResponse({ type: UserEntity })
+  async findOne(@Param('id') id: number): Promise<UserEntity> {
     return this.usersService.findOne({ id });
   }
 
   @Get()
-  async findMany(): Promise<User[]> {
+  @ApiOkResponse({ type: UserEntity, isArray: true })
+  async findMany(): Promise<UserEntity[]> {
     return this.usersService.findMany();
   }
 
   @Patch(':id')
+  @ApiOkResponse({ type: UserEntity })
   async update(
     @Param('id') id: number,
     @Body() dto: UpdateUserDto,
-  ): Promise<User> {
+  ): Promise<UserEntity> {
     return this.usersService.update({ id }, dto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<User> {
+  @ApiOkResponse({ type: UserEntity })
+  async remove(@Param('id') id: number): Promise<UserEntity> {
     return this.usersService.delete({ id });
   }
 }

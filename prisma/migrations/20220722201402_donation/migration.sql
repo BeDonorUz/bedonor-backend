@@ -1,10 +1,10 @@
 -- CreateEnum
-CREATE TYPE "DonationType" AS ENUM ('WHOLE_BLOOD', 'PLASMA');
+CREATE TYPE "DonationTypeEnum" AS ENUM ('WHOLE_BLOOD', 'PLASMA');
 
 -- CreateTable
 CREATE TABLE "Donation" (
     "id" SERIAL NOT NULL,
-    "type" "DonationType" NOT NULL,
+    "type" "DonationTypeEnum" NOT NULL,
     "userId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
