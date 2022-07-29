@@ -19,5 +19,5 @@ const data: Prisma.CityCreateInput[] = [
 ];
 
 export default () => {
-  return prisma.city.createMany({ data });
+  return prisma.city.createMany({ data, skipDuplicates: true });
 };

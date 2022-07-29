@@ -4,8 +4,6 @@ import { DonationEntity } from '../../donations/entities/donation.entity';
 import { ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { Donation } from '@prisma/client';
 
-console.log('DonationEntity', DonationEntity);
-
 export class UserEntity extends CommonEntity implements UserType {
   id: number;
 

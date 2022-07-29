@@ -57,3 +57,16 @@ model Center {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+enum BotLanguagesEnum {
+  UZ
+  EN
+  RU
+}
+
+model BotLocales {
+  id          Int @id @default(autoincrement())
+  name        String @db.VarChar(32)
+  text        String
+  language    BotLanguagesEnum
+}
