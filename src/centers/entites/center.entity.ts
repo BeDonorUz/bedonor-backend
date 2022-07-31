@@ -7,6 +7,8 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CenterEntity extends CommonEntity implements CenterType {
   name: string;
 
+  address: string;
+
   cityId: number;
 
   city: CityEntity;

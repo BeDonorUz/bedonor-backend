@@ -50,6 +50,7 @@ model City {
 model Center {
   id          Int @id @default(autoincrement())
   name        String @db.VarChar(128)
+  address     String? @db.VarChar(128)
   cityId      Int
   city        City @relation(fields: [cityId], references: [id])
   latitude    Decimal
