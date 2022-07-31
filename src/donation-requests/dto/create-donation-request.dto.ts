@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { DonationTypeEnum, BloodGroupsEnum } from '@prisma/client';
 import {
   IsDate,
@@ -42,9 +43,11 @@ export class CreateDonationRequestDto {
   @IsPositive()
   centerId: number;
 
+  @ApiProperty({ enum: DonationTypeEnum })
   @IsEnum(DonationTypeEnum)
   type: DonationTypeEnum;
 
+  @ApiProperty({ enum: BloodGroupsEnum, isArray: true })
   @IsEnum(BloodGroupsEnum, { each: true })
   groups: BloodGroupsEnum[];
 }
