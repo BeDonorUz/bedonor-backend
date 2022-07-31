@@ -3,10 +3,10 @@ import { GeneralHandler } from './handlers/general.handler';
 import { PrismaModule } from '../prisma/prisma.module';
 import { InfoHandler } from './handlers/info.handlers';
 import { BecomeDonorScene } from './scenes/become-donor.scene';
-import { RegisterScene } from './scenes/register.scene';
+import { LanguageScene } from './scenes/language.scene';
 
 @Module({
   imports: [PrismaModule],
-  providers: [GeneralHandler, InfoHandler, BecomeDonorScene, RegisterScene],
+  providers: [GeneralHandler, InfoHandler, BecomeDonorScene, LanguageScene],
 })
 export class BotModule {}

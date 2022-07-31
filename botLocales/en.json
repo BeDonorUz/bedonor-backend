@@ -6,5 +6,6 @@
   "how-to-become-donor": "A donor can be a person over 18 years old only after a medical examination. Medical examination of persons before donation of blood and its components and issuance of documents on their state of health are *free of charge*. \n\nBlood is collected by *the blood service of the state medical institution.*",
   "button:where-to-donate-blood": "Where to donate blood🔍",
   "choose-language": "Choose the language:",
-  "language-changed": "✅ The language has been changed"
+  "language-changed": "✅ The language has been changed",
+  "button:change-language": "⚙️ Language" 
 }

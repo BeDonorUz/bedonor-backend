@@ -1,20 +1,19 @@
-import {
-  Ctx,
-  Scene,
-  SceneEnter,
-  SceneLeave,
-  Hears,
-  Action,
-} from 'nestjs-telegraf';
+import { Ctx, Scene, SceneEnter, SceneLeave, Hears } from 'nestjs-telegraf';
 import { ExtContext, LanguagesType } from '../utils/types';
-import { Key, Keyboard } from 'telegram-keyboard';
+import { Keyboard } from 'telegram-keyboard';
 import { GeneralHandler } from '../handlers/general.handler';
 import { TelegrafI18n } from '../utils/i18n';
 import { PrismaService } from '../../prisma/prisma.service';
 import { BotLanguagesEnum, Prisma } from '@prisma/client';
 
-@Scene('register')
-export class RegisterScene {
+@Scene('language')
+export class LanguageScene {
+  private static readonly languagesButtons: string[] = [
+    '🇺🇿 Uz',
+    '🇬🇧 En',
+    '🇷🇺 Ru',
+  ];
+
   constructor(
     private readonly generalHandler: GeneralHandler,
     private readonly prisma: PrismaService,
@@ -24,20 +23,16 @@ export class RegisterScene {
   enter(@Ctx() ctx: ExtContext) {
     ctx.replyWithMarkdown(
       ctx.i18n.t('choose-language'),
-      Keyboard.inline([
-        Key.callback('🇺🇿 Uz', 'choose-lang:uz'),
-        Key.callback('🇬🇧 En', 'choose-lang:en'),
-        Key.callback('🇷🇺 Ru', 'choose-lang:ru'),
-      ]),
+      Keyboard.reply(LanguageScene.languagesButtons),
     );
   }
 
-  @Action(['choose-lang:uz', 'choose-lang:en', 'choose-lang:ru'])
+  @Hears(LanguageScene.languagesButtons)
   async chooseLang(@Ctx() ctx: ExtContext) {
     const { id } = ctx.from;
-    const { data } = ctx.callbackQuery;
-    const langWithoutEnum: LanguagesType = data
-      .substr(data.indexOf(':') + 1)
+    const { text } = ctx.message;
+    const langWithoutEnum: LanguagesType = text
+      .substr(text.indexOf(' ') + 1)
       .toUpperCase() as LanguagesType;
     const language = BotLanguagesEnum[langWithoutEnum];
     const user: Prisma.BotUserCreateInput = { id, language };
@@ -48,8 +43,8 @@ export class RegisterScene {
       where: { id },
     });
 
+    ctx.session.languageCode = langWithoutEnum.toLowerCase();
     ctx.i18n.locale(langWithoutEnum.toLowerCase());
-    await ctx.answerCbQuery();
     await ctx.replyWithMarkdown(ctx.i18n.t('language-changed'));
     ctx.scene.leave();
   }
