@@ -56,4 +56,29 @@ model Center {
   longitude   Decimal
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  requests    DonationRequest[]
+}
+
+enum BloodGroupsEnum {
+  PosA
+  PosB
+  PosAB
+  PosO
+  NegA
+  NegB
+  NegAB
+  NegO
+}
+
+model DonationRequest {
+  id          Int @id @default(autoincrement())
+  firstName   String @db.VarChar(64)
+  lastName    String @db.VarChar(64)
+  patronymic  String? @db.VarChar(64)
+  type        DonationTypeEnum
+  group       BloodGroupsEnum
+  count       Int
+  centerId    Int
+  center      Center @relation(fields: [centerId], references: [id])
+  dateTo      DateTime?
 }
