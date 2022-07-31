@@ -7,7 +7,7 @@ export const languageMiddleware = async (
   ctx: ExtContext,
   next: () => Promise<void>,
 ) => {
-  const id = ctx.from.id;
+  const { id } = ctx.from;
 
   if (Object.prototype.hasOwnProperty.call(ctx.session, 'languageCode')) {
     ctx.i18n.locale(ctx.session.languageCode);
