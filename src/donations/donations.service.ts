@@ -5,23 +5,25 @@ import { DonationType } from './donation.type';
 
 @Injectable()
 export class DonationsService {
+  private readonly include = { user: true };
+
   constructor(private readonly prisma: PrismaService) {}
 
   async create(
     data: Prisma.DonationUncheckedCreateInput,
   ): Promise<DonationType> {
-    return this.prisma.donation.create({ data, include: { user: true } });
+    return this.prisma.donation.create({ data, include: this.include });
   }
 
   async findOne(where: Prisma.DonationWhereUniqueInput): Promise<DonationType> {
     return this.prisma.donation.findUniqueOrThrow({
       where,
-      include: { user: true },
+      include: this.include,
     });
   }
 
   async findMany(where?: Prisma.DonationWhereInput): Promise<DonationType[]> {
-    return this.prisma.donation.findMany({ where, include: { user: true } });
+    return this.prisma.donation.findMany({ where, include: this.include });
   }
 
   async update(
@@ -31,11 +33,11 @@ export class DonationsService {
     return this.prisma.donation.update({
       data,
       where,
-      include: { user: true },
+      include: this.include,
     });
   }
 
   async delete(where: Prisma.DonationWhereUniqueInput): Promise<DonationType> {
-    return this.prisma.donation.delete({ where, include: { user: true } });
+    return this.prisma.donation.delete({ where, include: this.include });
   }
 }

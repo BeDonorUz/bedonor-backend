@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { TelegrafModule } from 'nestjs-telegraf';
 import { BotModule } from './bot/bot.module';
 import { botConfig } from './bot/bot.config';
+import { DonationRequestsModule } from './donation-requests/donation-requests.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { botConfig } from './bot/bot.config';
     CentersModule,
     AuthModule,
     BotModule,
+    DonationRequestsModule,
   ],
 })
 export class AppModule {}

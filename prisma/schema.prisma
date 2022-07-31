@@ -55,6 +55,7 @@ model Center {
   city        City @relation(fields: [cityId], references: [id])
   latitude    Decimal
   longitude   Decimal
+  requests    DonationRequest[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -70,4 +71,30 @@ model BotLocales {
   name        String @db.VarChar(32)
   text        String
   language    BotLanguagesEnum
+}
+
+enum BloodGroupsEnum {
+  PosA
+  PosB
+  PosAB
+  PosO
+  NegA
+  NegB
+  NegAB
+  NegO
+}
+
+model DonationRequest {
+  id          Int @id @default(autoincrement())
+  firstName   String @db.VarChar(64)
+  lastName    String @db.VarChar(64)
+  patronymic  String? @db.VarChar(64)
+  type        DonationTypeEnum
+  groups      BloodGroupsEnum[]
+  count       Int
+  centerId    Int
+  center      Center @relation(fields: [centerId], references: [id])
+  dateTo      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
