@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
+import { LoginOutputDto } from './dto/login-output.dto';
 
 @Injectable()
 export class AuthService {
@@ -23,10 +24,10 @@ export class AuthService {
     return null;
   }
 
-  login(user: User) {
+  login(user: User): LoginOutputDto {
     const payload = { login: user.login, userId: user.id };
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
   }
 }
