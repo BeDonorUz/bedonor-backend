@@ -12,14 +12,20 @@ import { JwtAuthGuard } from 'src/auth/strategies/jwt-auth.guard';
 import { DonationsService } from './donations.service';
 import { CreateDonationDto } from './dto/create-donation.dto';
 import { UpdateDonationDto } from './dto/update-donation.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DonationEntity } from './entities/donation.entity';
 
 const name: string = 'donations';
 
 @Controller(name)
-@ApiTags(name)
 @UseGuards(JwtAuthGuard)
+@ApiTags(name)
+@ApiBearerAuth()
 export class DonationsController {
   constructor(private readonly donationsService: DonationsService) {}
 
