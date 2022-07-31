@@ -8,10 +8,12 @@ CREATE TABLE "DonationRequest" (
     "lastName" VARCHAR(64) NOT NULL,
     "patronymic" VARCHAR(64),
     "type" "DonationTypeEnum" NOT NULL,
-    "group" "BloodGroupsEnum" NOT NULL,
+    "groups" "BloodGroupsEnum"[],
     "count" INTEGER NOT NULL,
     "centerId" INTEGER NOT NULL,
     "dateTo" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "DonationRequest_pkey" PRIMARY KEY ("id")
 );

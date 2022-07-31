@@ -76,9 +76,11 @@ model DonationRequest {
   lastName    String @db.VarChar(64)
   patronymic  String? @db.VarChar(64)
   type        DonationTypeEnum
-  group       BloodGroupsEnum
+  groups      BloodGroupsEnum[]
   count       Int
   centerId    Int
   center      Center @relation(fields: [centerId], references: [id])
   dateTo      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
