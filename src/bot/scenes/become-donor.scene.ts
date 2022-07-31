@@ -4,7 +4,7 @@ import { Keyboard } from 'telegram-keyboard';
 import { GeneralHandler } from '../handlers/general.handler';
 import { TelegrafI18n } from '../utils/i18n';
 
-@Scene('centers')
+@Scene('become-donor')
 export class BecomeDonorScene {
   constructor(private readonly generalHandler: GeneralHandler) {}
 
@@ -18,7 +18,7 @@ export class BecomeDonorScene {
 
   @SceneLeave()
   leave(@Ctx() ctx: ExtContext) {
-    this.generalHandler.start(ctx);
+    this.generalHandler.start(ctx, false);
   }
 
   @Hears(TelegrafI18n.match('button:back'))

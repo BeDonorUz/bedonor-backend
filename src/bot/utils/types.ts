@@ -14,3 +14,5 @@ export type ExtContext = Context & {
 };
 
 export type TextMessage = Message.TextMessage;
+
+export type LanguagesType = 'UZ' | 'EN' | 'RU';

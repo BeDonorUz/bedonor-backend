@@ -9,7 +9,7 @@ export class InfoHandler {
 
   @Hears(TelegrafI18n.match('button:how-to-become-donor'))
   howToBecomeDonor(@Ctx() ctx: ExtContext) {
-    ctx.scene.enter('centers');
+    ctx.scene.enter('become-donor');
   }
 
   @Hears(TelegrafI18n.match('button:where-to-donate-blood'))
