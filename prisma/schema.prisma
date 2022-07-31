@@ -73,6 +73,11 @@ model BotLocales {
   language    BotLanguagesEnum
 }
 
+model BotUser {
+  id          Int @id
+  language    BotLanguagesEnum
+}
+
 enum BloodGroupsEnum {
   PosA
   PosB

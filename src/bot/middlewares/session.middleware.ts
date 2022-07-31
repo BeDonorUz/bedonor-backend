@@ -1,3 +1,3 @@
-import { session } from 'telegraf';
+import * as LocalSession from 'telegraf-session-local';
 
-export const sessionMiddleware = session();
+export const sessionMiddleware = new LocalSession();
