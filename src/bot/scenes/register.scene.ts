@@ -22,7 +22,6 @@ export class RegisterScene {
 
   @SceneEnter()
   enter(@Ctx() ctx: ExtContext) {
-    console.log('enter lang');
     ctx.replyWithMarkdown(
       ctx.i18n.t('choose-language'),
       Keyboard.inline([
@@ -35,7 +34,6 @@ export class RegisterScene {
 
   @Action(['choose-lang:uz', 'choose-lang:en', 'choose-lang:ru'])
   async chooseLang(@Ctx() ctx: ExtContext) {
-    console.log('enter chooseLang');
     const { id } = ctx.from;
     const { data } = ctx.callbackQuery;
     const langWithoutEnum: LanguagesType = data
