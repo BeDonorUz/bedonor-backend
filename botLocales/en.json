@@ -7,5 +7,7 @@
   "button:where-to-donate-blood": "Where to donate blood🔍",
   "choose-language": "Choose the language:",
   "language-changed": "✅ The language has been changed",
-  "button:change-language": "⚙️ Language" 
+  "button:change-language": "⚙️ Language",
+  "button:need-donors": "❗️ Donors needed urgently ❗️"
+
 }

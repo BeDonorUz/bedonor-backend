@@ -1,10 +1,10 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Prisma, BotLanguagesEnum } from '@prisma/client';
 
 // yandex.uz/maps data
 
 const prisma = new PrismaClient();
 
-const data: Prisma.CityCreateInput[] = [
+const cities: Prisma.CityCreateManyInput[] = [
   { name: 'Tashkent', latitude: 41.311158, longitude: 69.279737 },
   { name: 'Samarkand', latitude: 39.654404, longitude: 66.975827 },
   { name: 'Namangan', latitude: 41.000085, longitude: 71.672579 },
@@ -18,6 +18,25 @@ const data: Prisma.CityCreateInput[] = [
   { name: 'Bukhara', latitude: 39.767966, longitude: 64.421728 },
 ];
 
-export default () => {
-  return prisma.city.createMany({ data, skipDuplicates: true });
-};
+const locales: Prisma.BotLocalesCreateManyInput[] = [
+  {
+    name: 'city:Tashkent',
+    text: 'Toshkent',
+    language: BotLanguagesEnum.UZ,
+  },
+  {
+    name: 'city:tashkent',
+    text: 'Tashkent',
+    language: BotLanguagesEnum.EN,
+  },
+  {
+    name: 'city:tashkent',
+    text: 'Ташкент',
+    language: BotLanguagesEnum.RU,
+  },
+];
+
+export default [
+  prisma.botLocales.createMany({ data: locales, skipDuplicates: true }),
+  prisma.city.createMany({ data: cities, skipDuplicates: true }),
+];

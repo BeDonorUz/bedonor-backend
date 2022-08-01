@@ -16,6 +16,7 @@ export class GeneralHandler {
     ctx.reply(
       ctx.i18n.t('start'),
       Keyboard.reply([
+        [ctx.i18n.t('button:need-donors')],
         [ctx.i18n.t('button:how-to-become-donor')],
         [ctx.i18n.t('button:where-to-donate-blood')],
         [ctx.i18n.t('button:change-language')],

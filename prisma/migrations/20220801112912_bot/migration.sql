@@ -7,6 +7,8 @@ CREATE TABLE "BotLocales" (
     "name" VARCHAR(32) NOT NULL,
     "text" TEXT NOT NULL,
     "language" "BotLanguagesEnum" NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "BotLocales_pkey" PRIMARY KEY ("id")
 );
@@ -18,3 +20,6 @@ CREATE TABLE "BotUser" (
 
     CONSTRAINT "BotUser_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "BotLocales_name_language_key" ON "BotLocales"("name", "language");

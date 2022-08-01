@@ -71,6 +71,10 @@ model BotLocales {
   name        String @db.VarChar(32)
   text        String
   language    BotLanguagesEnum
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([name, language])
 }
 
 model BotUser {
