@@ -4,5 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 export class OnInitService implements OnModuleInit {
   constructor(private readonly prisma: PrismaService) {}
 
-  async onModuleInit() {}
+  async onModuleInit() {
+    
+  }
 }

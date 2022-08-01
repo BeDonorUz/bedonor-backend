@@ -1,8 +1,8 @@
 import seedCenters from './seeds/seed-centers';
-import cities from './seeds/seed-citites';
+import seedCities from './seeds/seed-citites';
 
 const main = async () => {
-  await Promise.all(cities);
+  await seedCities();
   await seedCenters();
 
   console.log('Success');

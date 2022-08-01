@@ -21,5 +21,23 @@ CREATE TABLE "BotUser" (
     CONSTRAINT "BotUser_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "_BotLocalesToCity" (
+    "A" INTEGER NOT NULL,
+    "B" INTEGER NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "BotLocales_name_language_key" ON "BotLocales"("name", "language");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "_BotLocalesToCity_AB_unique" ON "_BotLocalesToCity"("A", "B");
+
+-- CreateIndex
+CREATE INDEX "_BotLocalesToCity_B_index" ON "_BotLocalesToCity"("B");
+
+-- AddForeignKey
+ALTER TABLE "_BotLocalesToCity" ADD CONSTRAINT "_BotLocalesToCity_A_fkey" FOREIGN KEY ("A") REFERENCES "BotLocales"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "_BotLocalesToCity" ADD CONSTRAINT "_BotLocalesToCity_B_fkey" FOREIGN KEY ("B") REFERENCES "City"("id") ON DELETE CASCADE ON UPDATE CASCADE;
