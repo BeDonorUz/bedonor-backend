@@ -20,4 +20,9 @@ export class InfoHandler {
     // const longitude = +data.longitude.toString();
     // ctx.replyWithLocation(latitude, longitude);
   }
+
+  @Hears(match('button:need-donors'))
+  async enterNeedDonorsScene(@Ctx() ctx: ExtContext) {
+    ctx.scene.enter('need-donors');
+  }
 }

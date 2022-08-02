@@ -9,9 +9,9 @@ import { BotLanguagesEnum, Prisma } from '@prisma/client';
 @Scene('language')
 export class LanguageScene {
   private static readonly languagesButtons: string[] = [
-    '🇺🇿 Uz',
-    '🇬🇧 En',
-    '🇷🇺 Ru',
+    'Uzbek',
+    'English',
+    'Russian',
   ];
 
   constructor(
@@ -32,7 +32,7 @@ export class LanguageScene {
     const { id } = ctx.from;
     const { text } = ctx.message;
     const langWithoutEnum: LanguagesType = text
-      .substr(text.indexOf(' ') + 1)
+      .substr(0, 2)
       .toUpperCase() as LanguagesType;
     const language = BotLanguagesEnum[langWithoutEnum];
     const user: Prisma.BotUserCreateInput = { id, language };

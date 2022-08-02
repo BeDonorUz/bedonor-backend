@@ -1,14 +1,26 @@
 import { Context } from 'telegraf';
 import I18n from 'telegraf-i18n';
 import { Message, Update } from 'telegraf/typings/core/types/typegram';
-import { SceneContextScene } from 'telegraf/typings/scenes';
+import { SceneContextScene, WizardContext } from 'telegraf/typings/scenes';
 
 export type SessionContext = {
-  languageCode: string;
+  languageCode?: string;
+  city?: string;
+};
+
+export type ExtUpdate = Context['update'] & {
+  callback_query: {
+    id: string;
+    from: Context['from'];
+    message: Context['message'];
+    chat_instance: string;
+    data: string;
+  };
 };
 
 export type ExtContext = Context & {
   i18n: I18n;
+  update: ExtUpdate;
   scene: SceneContextScene<Context>;
   session: SessionContext;
   message: Update.New &
@@ -17,6 +29,8 @@ export type ExtContext = Context & {
       text: string;
     };
 };
+
+export type ExtWizardContext = WizardContext & ExtContext;
 
 export type TextMessage = Message.TextMessage;
 

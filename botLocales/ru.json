@@ -8,5 +8,6 @@
   "choose-language": "Выберите язык:",
   "language-changed": "✅ Язык изменен",
   "button:change-language": "⚙️ Изменить язык",
-  "button:need-donors": "❗️ Срочно нужны доноры ❗️"
+  "button:need-donors": "❗️ Срочно нужны доноры ❗️",
+  "choose-city": "Выберите город:"
 }

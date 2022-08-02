@@ -7,5 +7,6 @@ import { CitiesService } from './cities.service';
   imports: [PrismaModule],
   controllers: [CitiesController],
   providers: [CitiesService],
+  exports: [CitiesService],
 })
 export class CitiesModule {}
