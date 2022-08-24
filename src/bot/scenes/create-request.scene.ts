@@ -12,11 +12,30 @@ export class CreateRequestScene {
 
   @WizardStep(1)
   async step1(@Ctx() ctx: ExtWizardContext) {
-    if (!Object.prototype.hasOwnProperty.call(ctx.session, 'cityName')) {
-      ctx.session.nextScene = 'create-request';
-      return ctx.scene.enter('choose-city');
+    console.log('step1');
+    if (Object.prototype.hasOwnProperty.call(ctx.session, 'wizardStep')) {
+      console.log('entering step', ctx.session.wizardStep);
+      ctx.wizard.selectStep(ctx.session.wizardStep);
+      delete ctx.session.wizardStep;
+      return;
     }
 
+    ctx.session.nextScene = 'create-request';
+    ctx.session.wizardStep = 4;
+    return ctx.scene.enter('choose-city');
+  }
+
+  @WizardStep(2)
+  async step2(@Ctx() ctx: ExtWizardContext) {
+    console.log('step2');
+    ctx.session.nextScene = 'create-request';
+    ctx.session.wizardStep = 3;
+    return ctx.scene.enter('choose-center');
+  }
+
+  @WizardStep(3)
+  async step3(@Ctx() ctx: ExtWizardContext) {
+    console.log('step3');
     const typesKeys = Keyboard.make([
       ctx.i18n.t('plasma'),
       ctx.i18n.t('whole-blood'),
@@ -32,36 +51,24 @@ export class CreateRequestScene {
     ctx.wizard.next();
   }
 
-  @WizardStep(2)
-  step2(@Ctx() ctx: ExtWizardContext) {
-    ctx.session.donationRequest = {};
-    ctx.session.donationRequest.type = ctx.message.text;
-
-    const numbersKeys = Keyboard.make(range(1, 10), keyboardOptions(5));
-    const backKey = Keyboard.make([ctx.i18n.t('button:back')]);
-
-    ctx.replyWithMarkdownV2(
-      ctx.i18n.t('choose-donations-count'),
-      Keyboard.combine(numbersKeys, backKey).reply(),
-    );
-  }
-
-  @WizardStep(3)
-  step3(@Ctx() ctx: ExtWizardContext) {
-    ctx.session.donationRequest = {};
-    ctx.session.donationRequest.type = ctx.message.text;
-
-    const numbersKeys = Keyboard.make(range(1, 10), keyboardOptions(5));
-    const backKey = Keyboard.make([ctx.i18n.t('button:back')]);
-
-    ctx.replyWithMarkdownV2(
-      ctx.i18n.t('choose-donations-count'),
-      Keyboard.combine(numbersKeys, backKey).reply(),
-    );
-  }
-
   @WizardStep(4)
-  async step4(@Ctx() ctx: ExtWizardContext) {
+  step4(@Ctx() ctx: ExtWizardContext) {
+    ctx.reply('scene 4');
+    ctx.session.donationRequest = {};
+    ctx.session.donationRequest.type = ctx.message.text;
+
+    const numbersKeys = Keyboard.make(range(1, 10), keyboardOptions(5));
+    const backKey = Keyboard.make([ctx.i18n.t('button:back')]);
+
+    ctx.replyWithMarkdownV2(
+      ctx.i18n.t('choose-donations-count'),
+      Keyboard.combine(numbersKeys, backKey).reply(),
+    );
+  }
+
+  @WizardStep(5)
+  async step5(@Ctx() ctx: ExtWizardContext) {
+    ctx.reply('scene 5');
     ctx.session.donationRequest.count = +ctx.message.text;
 
     const numbersKeys = Keyboard.make(range(1, 10), keyboardOptions(5));
@@ -75,6 +82,7 @@ export class CreateRequestScene {
 
   @SceneLeave()
   leave(@Ctx() ctx: ExtContext) {
+    console.log('leaving create-request');
     this.generalHandler.start(ctx, false);
   }
 

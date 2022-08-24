@@ -70,16 +70,23 @@ export class ChooseCityScene {
     const { data } = ctx.update.callback_query;
     ctx.session.cityName = data;
 
+    console.log('city choosed, session = ', ctx.session);
+
+    await ctx.answerCbQuery();
     ctx.scene.enter(ctx.session.nextScene);
   }
 
   @SceneLeave()
   leave(@Ctx() ctx: ExtContext) {
-    this.generalHandler.start(ctx, false);
+    if (ctx.session.leaveToStart) {
+      this.generalHandler.start(ctx, false);
+    }
+    delete ctx.session.leaveToStart;
   }
 
   @Hears(TelegrafI18n.match('button:back'))
   back(@Ctx() ctx: ExtContext) {
+    ctx.session.leaveToStart = true;
     ctx.scene.leave();
   }
 

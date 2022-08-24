@@ -9,11 +9,13 @@ export type SessionDonationRequest = {
 };
 
 export type SessionContext = {
+  leaveToStart?: boolean;
   languageCode?: string;
   cityName?: string;
   centerId?: string;
   nextScene?: string;
   donationRequest?: SessionDonationRequest;
+  wizardStep?: number;
 };
 
 export type ExtUpdate = Context['update'] & {

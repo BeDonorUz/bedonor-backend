@@ -22,6 +22,7 @@ export class ChooseCenterScene {
 
   @WizardStep(1)
   async enter(@Ctx() ctx: ExtWizardContext) {
+    console.log('enter choose-center');
     const centers = await this.centersService.findMany({
       city: { name: ctx.session.cityName },
     });
