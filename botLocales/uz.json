@@ -9,5 +9,12 @@
   "language-changed": "✅ Til o'zgartirildi",
   "button:change-language": "⚙️ Til",
   "button:need-donors": "❗️ Shoshilinch donorlar kerak ❗️",
-  "choose-city": "Shaharni tanlang:"
+  "choose-city": "Shaharni tanlang:",
+  "button:create-request": "Menga donor kerak 🗣",
+  "choose-center": "Markazni tanlang:",
+  "choose-donation-type": "Choose type of donation you need:",
+  "plasma": "Plasma",
+  "whole-blood": "Whole blood",
+  "platelets": "Platelets",
+  "choose-donations-count": "Choose needed donations count:"
 }

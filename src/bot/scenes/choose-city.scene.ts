@@ -5,6 +5,8 @@ import {
   Wizard,
   WizardStep,
   Action,
+  On,
+  TelegrafArgumentsHost,
 } from 'nestjs-telegraf';
 import { ExtContext, ExtWizardContext } from '../utils/types';
 import { CallbackButton, Key, Keyboard } from 'telegram-keyboard';
@@ -12,14 +14,32 @@ import { GeneralHandler } from '../handlers/general.handler';
 import { TelegrafI18n } from '../utils/i18n';
 import { CitiesService } from '../../cities/cities.service';
 import { keyboardOptions } from '../utils/markup';
-import { DonationRequestsService } from '../../donation-requests/donation-requests.service';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  UseFilters,
+} from '@nestjs/common';
 
-@Wizard('need-donors')
-export class NeedDonorsScene {
+@Catch()
+export class TelegrafExceptionFilter implements ExceptionFilter {
+  async catch(exception: Error, host: ArgumentsHost): Promise<void> {
+    const telegrafHost = TelegrafArgumentsHost.create(host);
+    const ctx = telegrafHost.getContext<ExtContext>();
+
+    await ctx.replyWithMarkdownV2(
+      `<b>Error</b>: ${exception.message}`,
+      Keyboard.reply([ctx.i18n.t('button:back')]),
+    );
+  }
+}
+
+@Wizard('choose-city')
+@UseFilters(TelegrafExceptionFilter)
+export class ChooseCityScene {
   constructor(
     private readonly generalHandler: GeneralHandler,
     private readonly citiesService: CitiesService,
-    private readonly donationRequestsService: DonationRequestsService,
   ) {}
 
   @WizardStep(1)
@@ -44,24 +64,14 @@ export class NeedDonorsScene {
     ctx.wizard.next();
   }
 
-  // @WizardStep(2)
-  // @On('callback_query')
-  // async chooseCenter(@Ctx() ctx: ExtWizardContext) {
-  //   const { data } = ctx.update.callback_query;
-  //   const centers = await this.centersService.findMany({
-  //     city: { name: data },
-  //   });
+  @WizardStep(2)
+  @On('callback_query')
+  async storeCity(@Ctx() ctx: ExtWizardContext) {
+    const { data } = ctx.update.callback_query;
+    ctx.session.cityName = data;
 
-  //   await ctx.answerCbQuery();
-  //   await ctx.editMessageText(
-  //     `You choosed ${data}. Choose center:`,
-  //     Keyboard.make(
-  //       centers.map((center) => Key.callback(center.name, center.id)),
-  //     ).inline(),
-  //   );
-
-  //   ctx.wizard.next();
-  // }
+    ctx.scene.enter(ctx.session.nextScene);
+  }
 
   @SceneLeave()
   leave(@Ctx() ctx: ExtContext) {

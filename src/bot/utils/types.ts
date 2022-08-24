@@ -3,9 +3,17 @@ import I18n from 'telegraf-i18n';
 import { Message, Update } from 'telegraf/typings/core/types/typegram';
 import { SceneContextScene, WizardContext } from 'telegraf/typings/scenes';
 
+export type SessionDonationRequest = {
+  type?: string;
+  count?: number;
+};
+
 export type SessionContext = {
   languageCode?: string;
-  city?: string;
+  cityName?: string;
+  centerId?: string;
+  nextScene?: string;
+  donationRequest?: SessionDonationRequest;
 };
 
 export type ExtUpdate = Context['update'] & {

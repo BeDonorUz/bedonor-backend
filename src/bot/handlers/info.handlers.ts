@@ -25,4 +25,9 @@ export class InfoHandler {
   async enterNeedDonorsScene(@Ctx() ctx: ExtContext) {
     ctx.scene.enter('need-donors');
   }
+
+  @Hears(match('button:create-request'))
+  async enterRequestCreation(@Ctx() ctx: ExtContext) {
+    ctx.scene.enter('create-request');
+  }
 }

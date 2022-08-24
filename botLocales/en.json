@@ -9,5 +9,12 @@
   "language-changed": "✅ The language has been changed",
   "button:change-language": "⚙️ Language",
   "button:need-donors": "❗️ Donors needed urgently ❗️",
-  "choose-city": "Choose city:"
+  "choose-city": "Choose city:",
+  "button:create-request": "I need donor 🗣",
+  "choose-center": "Choose center:",
+  "choose-donation-type": "Choose type of donation you need:",
+  "plasma": "Plasma",
+  "whole-blood": "Whole blood",
+  "platelets": "Platelets",
+  "choose-donations-count": "Choose needed donations count:"
 }
