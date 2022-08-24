@@ -1,46 +1,22 @@
-import {
-  Ctx,
-  SceneLeave,
-  Hears,
-  Wizard,
-  WizardStep,
-  Action,
-  On,
-  TelegrafArgumentsHost,
-} from 'nestjs-telegraf';
-import { ExtContext, ExtWizardContext } from '../utils/types';
+import { Ctx, Wizard, WizardStep, On } from 'nestjs-telegraf';
+import { ExtWizardContext } from '../utils/types';
 import { CallbackButton, Key, Keyboard } from 'telegram-keyboard';
 import { GeneralHandler } from '../handlers/general.handler';
-import { TelegrafI18n } from '../utils/i18n';
 import { CitiesService } from '../../cities/cities.service';
 import { keyboardOptions } from '../utils/markup';
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  UseFilters,
-} from '@nestjs/common';
-
-@Catch()
-export class TelegrafExceptionFilter implements ExceptionFilter {
-  async catch(exception: Error, host: ArgumentsHost): Promise<void> {
-    const telegrafHost = TelegrafArgumentsHost.create(host);
-    const ctx = telegrafHost.getContext<ExtContext>();
-
-    await ctx.replyWithMarkdownV2(
-      `<b>Error</b>: ${exception.message}`,
-      Keyboard.reply([ctx.i18n.t('button:back')]),
-    );
-  }
-}
+import { UseFilters } from '@nestjs/common';
+import { AbstractScene } from './abstract.scene';
+import { TelegrafExceptionFilter } from '../filters/telegraf.filter';
 
 @Wizard('choose-city')
 @UseFilters(TelegrafExceptionFilter)
-export class ChooseCityScene {
+export class ChooseCityScene extends AbstractScene {
   constructor(
-    private readonly generalHandler: GeneralHandler,
-    private readonly citiesService: CitiesService,
-  ) {}
+    protected readonly generalHandler: GeneralHandler,
+    protected readonly citiesService: CitiesService,
+  ) {
+    super();
+  }
 
   @WizardStep(1)
   async enter(@Ctx() ctx: ExtWizardContext) {
@@ -70,29 +46,7 @@ export class ChooseCityScene {
     const { data } = ctx.update.callback_query;
     ctx.session.cityName = data;
 
-    console.log('city choosed, session = ', ctx.session);
-
     await ctx.answerCbQuery();
     ctx.scene.enter(ctx.session.nextScene);
-  }
-
-  @SceneLeave()
-  leave(@Ctx() ctx: ExtContext) {
-    if (ctx.session.leaveToStart) {
-      this.generalHandler.start(ctx, false);
-    }
-    delete ctx.session.leaveToStart;
-  }
-
-  @Hears(TelegrafI18n.match('button:back'))
-  back(@Ctx() ctx: ExtContext) {
-    ctx.session.leaveToStart = true;
-    ctx.scene.leave();
-  }
-
-  @Action('back')
-  async back2(@Ctx() ctx: ExtContext) {
-    await ctx.answerCbQuery();
-    ctx.scene.leave();
   }
 }

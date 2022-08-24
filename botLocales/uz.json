@@ -16,5 +16,8 @@
   "plasma": "Plasma",
   "whole-blood": "Whole blood",
   "platelets": "Platelets",
-  "choose-donations-count": "Choose needed donations count:"
+  "choose-donations-count": "Choose needed donations count:",
+  "error": "Error happened",
+  "choose-blood-group": "Choose suitable blood groups:",
+  "button:done": "✅ Done"
 }

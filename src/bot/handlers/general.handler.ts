@@ -8,7 +8,8 @@ import { match } from '../utils/i18n';
 export class GeneralHandler {
   @Start()
   start(@Ctx() ctx: ExtContext, direct: boolean = true) {
-    ctx.scene.leave();
+    ctx.session = null;
+
     if (direct && needToRegister(ctx)) {
       return;
     }

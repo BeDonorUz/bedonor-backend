@@ -1,28 +1,24 @@
-import {
-  Ctx,
-  SceneLeave,
-  Hears,
-  Wizard,
-  WizardStep,
-  Action,
-  On,
-} from 'nestjs-telegraf';
-import { ExtContext, ExtWizardContext } from '../utils/types';
+import { Ctx, Wizard, WizardStep, On } from 'nestjs-telegraf';
+import { ExtWizardContext } from '../utils/types';
 import { Key, Keyboard } from 'telegram-keyboard';
 import { GeneralHandler } from '../handlers/general.handler';
-import { TelegrafI18n } from '../utils/i18n';
 import { CentersService } from '../../centers/centers.service';
+import { AbstractScene } from './abstract.scene';
+import { UseFilters } from '@nestjs/common';
+import { TelegrafExceptionFilter } from '../filters/telegraf.filter';
 
 @Wizard('choose-center')
-export class ChooseCenterScene {
+@UseFilters(TelegrafExceptionFilter)
+export class ChooseCenterScene extends AbstractScene {
   constructor(
-    private readonly generalHandler: GeneralHandler,
-    private readonly centersService: CentersService,
-  ) {}
+    protected readonly generalHandler: GeneralHandler,
+    protected readonly centersService: CentersService,
+  ) {
+    super();
+  }
 
   @WizardStep(1)
   async enter(@Ctx() ctx: ExtWizardContext) {
-    console.log('enter choose-center');
     const centers = await this.centersService.findMany({
       city: { name: ctx.session.cityName },
     });
@@ -41,25 +37,9 @@ export class ChooseCenterScene {
   @WizardStep(2)
   @On('callback_query')
   async storeCenter(@Ctx() ctx: ExtWizardContext) {
-    const { data } = ctx.update.callback_query;
-    ctx.session.centerId = data;
+    ctx.session.centerId = +ctx.update.callback_query?.data;
 
-    ctx.scene.enter(ctx.session.nextScene);
-  }
-
-  @SceneLeave()
-  leave(@Ctx() ctx: ExtContext) {
-    this.generalHandler.start(ctx, false);
-  }
-
-  @Hears(TelegrafI18n.match('button:back'))
-  back(@Ctx() ctx: ExtContext) {
-    ctx.scene.leave();
-  }
-
-  @Action('back')
-  async back2(@Ctx() ctx: ExtContext) {
     await ctx.answerCbQuery();
-    ctx.scene.leave();
+    ctx.scene.enter(ctx.session.nextScene);
   }
 }
