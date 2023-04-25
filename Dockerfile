@@ -1,4 +1,4 @@
-FROM node:18-alpine3.14
+FROM node:20-buster
 
 WORKDIR /app
 
@@ -10,6 +10,7 @@ RUN pnpm install
 
 COPY . .
 
-RUN apk add postgresql-client
+RUN apt update
+RUN apt install -y postgresql-client
 
 CMD ["pnpm", "start:dev"]
