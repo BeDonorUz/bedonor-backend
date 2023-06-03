@@ -22,9 +22,7 @@ export class AuthGuard implements CanActivate {
         secret: process.env.JWT_SECRET,
       });
       request.user = payload;
-      console.log('request.user', request.user);
     } catch {
-      console.error(`jwt didn't pass verification`);
       throw new UnauthorizedException();
     }
     return true;

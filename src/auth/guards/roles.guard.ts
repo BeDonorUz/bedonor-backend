@@ -22,17 +22,11 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    console.log(
-      'user',
-      context.switchToHttp().getRequest<{ user: JwtPayloadType }>().user,
-    );
-
     const { user: payload } = context
       .switchToHttp()
       .getRequest<{ user: JwtPayloadType }>();
 
     const user = await this.usersService.findOne({ id: payload.id });
-    console.log(user);
 
     return requiredRoles.some((role) => user.role === role);
   }
