@@ -1,10 +1,12 @@
 import {
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   Length,
   MaxLength,
 } from 'class-validator';
+import { UserRolesPublicEnum } from '../enum/user-roles.enum';
 
 export class CreateUserDto {
   @IsString()
@@ -32,4 +34,7 @@ export class CreateUserDto {
   @IsNotEmpty()
   @MaxLength(64)
   patronymic: string;
+
+  @IsEnum(UserRolesPublicEnum)
+  role: UserRolesPublicEnum;
 }

@@ -11,16 +11,26 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRolesEnum {
+  DONOR
+  APPLICANT
+  CENTER_ADMIN
+  SYSTEM_ADMIN
+}
+
 model User {
-  id          Int @id @default(autoincrement())
-  login       String @db.VarChar(64) @unique
-  password    String @db.VarChar(128)
-  firstName   String @db.VarChar(64)
-  lastName    String @db.VarChar(64)
-  patronymic  String? @db.VarChar(64)
-  donations   Donation[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                Int @id @default(autoincrement())
+  login             String @db.VarChar(64) @unique
+  passwordHash      String @db.VarChar(60)
+  firstName         String @db.VarChar(64)
+  lastName          String @db.VarChar(64)
+  patronymic        String? @db.VarChar(64)
+  role              UserRolesEnum
+  donations         Donation[]
+  employedCenter    Center? @relation(fields: [employedCenterId], references: [id])
+  employedCenterId  Int?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 enum DonationTypeEnum {
@@ -55,6 +65,7 @@ model Center {
   address     String? @db.VarChar(128)
   cityId      Int
   city        City @relation(fields: [cityId], references: [id])
+  users       User[]
   latitude    Decimal
   longitude   Decimal
   requests    DonationRequest[]

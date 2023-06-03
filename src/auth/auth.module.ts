@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategies/jwt.strategy';
+// import { JwtStrategy } from './strategies/jwt.strategy';
 
+@Global()
 @Module({
   imports: [
     UsersModule,
@@ -16,7 +16,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       signOptions: { expiresIn: process.env.JWT_EXPIRATION },
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService /*, JwtStrategy*/],
   controllers: [AuthController],
+  exports: [JwtModule],
 })
 export class AuthModule {}

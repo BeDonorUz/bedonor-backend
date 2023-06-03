@@ -35,7 +35,6 @@ export class UsersController {
   @Get()
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findMany(): Promise<UserEntity[]> {
-    console.log('enter GET /users');
     return this.usersService.findMany();
   }
 

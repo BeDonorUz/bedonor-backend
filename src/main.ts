@@ -1,7 +1,6 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { getBotToken } from 'nestjs-telegraf';
 import { AppModule } from './app.module';
 import { IdInterceptor } from './utils/interceptors/id.interceptor';
 
@@ -17,9 +16,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-
-  const bot = app.get(getBotToken());
-  bot.catch((err: any) => console.error(err));
 
   await app.listen(3000);
 }
