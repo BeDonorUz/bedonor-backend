@@ -1,9 +1,8 @@
 import { CommonEntity } from '../../common/entities/common.entity';
-import { DonationEntity } from '../../donations/entities/donation.entity';
-import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
-import { Donation, UserRolesEnum } from '@prisma/client';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { UserRolesEnum } from '@prisma/client';
 
-export class UserEntityPrivate extends CommonEntity {
+export class UserPrivateEntity extends CommonEntity {
   id: number;
 
   login: string;
@@ -18,18 +17,6 @@ export class UserEntityPrivate extends CommonEntity {
 
   @ApiProperty({ enum: UserRolesEnum })
   role: UserRolesEnum;
-
-  @ApiPropertyOptional({
-    type: () => OmitType(DonationEntity, ['user']),
-    isArray: true,
-    maxItems: 20,
-  })
-  donations?: Donation[];
-
-  @ApiPropertyOptional()
-  _count?: {
-    donations?: number;
-  };
 }
 
-export class UserEntity extends OmitType(UserEntityPrivate, ['passwordHash']) {}
+export class UserEntity extends OmitType(UserPrivateEntity, ['passwordHash']) {}

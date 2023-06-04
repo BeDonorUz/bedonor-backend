@@ -1,10 +1,8 @@
-import { DonationTypeEnum, User } from '@prisma/client';
+import { DonationTypeEnum } from '@prisma/client';
 import { CommonEntity } from '../../common/entities/common.entity';
-import { DonationType } from '../donation.type';
-import { UserEntity } from '../../users/entities/user.entity';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class DonationEntity extends CommonEntity implements DonationType {
+export class DonationEntity extends CommonEntity {
   id: number;
 
   @ApiProperty({ enum: DonationTypeEnum })
@@ -12,6 +10,7 @@ export class DonationEntity extends CommonEntity implements DonationType {
 
   userId: number;
 
-  @ApiProperty({ type: () => OmitType(UserEntity, ['donations']) })
-  user: User;
+  centerId: number;
+
+  requestId: number;
 }

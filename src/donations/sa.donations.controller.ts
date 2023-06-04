@@ -25,17 +25,18 @@ import { UserRolesEnum } from 'src/users/enum/user-roles.enum';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { GetUserPayload } from 'src/users/decorators/get-user.decorator';
 import { UserPayloadType } from 'src/auth/types/jwt-payload.type';
+import { UpdateDonationDto } from './dto/update-donation.dto';
 import { CommonException } from 'src/utils/common.exception';
 
-const name: string = 'donations';
+const name: string = 'sa/donations';
 
 @Controller(name)
 @ApiTags(name)
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
-@Roles(UserRolesEnum.DONOR)
+@Roles(UserRolesEnum.SYSTEM_ADMIN)
 @ApiBearerAuth()
-export class DonationsController {
+export class SADonationsController {
   constructor(private readonly donationsService: DonationsService) {}
 
   @Post()
@@ -60,9 +61,13 @@ export class DonationsController {
   }
 
   @Patch(':id')
-  @ApiUnauthorizedResponse({ type: CommonException })
-  async update() {
-    throw new UnauthorizedException();
+  @ApiOkResponse({ type: DonationEntity })
+  async update(
+    @GetUserPayload() userPayload: UserPayloadType,
+    @Param('id') id: number,
+    @Body() dto: UpdateDonationDto,
+  ) {
+    return this.donationsService.update(userPayload, dto, { id });
   }
 
   @Delete(':id')

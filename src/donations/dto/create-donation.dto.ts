@@ -1,5 +1,5 @@
-import { DonationTypeEnum } from '@prisma/client';
 import { IsEnum, IsInt, IsPositive } from 'class-validator';
+import { DonationTypeEnum } from '../enum/donation-type.enum';
 
 export class CreateDonationDto {
   @IsEnum(DonationTypeEnum)
@@ -8,4 +8,8 @@ export class CreateDonationDto {
   @IsInt()
   @IsPositive()
   userId: number;
+
+  @IsInt()
+  @IsPositive()
+  centerId: number;
 }

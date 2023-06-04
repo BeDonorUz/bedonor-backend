@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import { UserRolesEnum } from 'src/users/enum/user-roles.enum';
 import { ROLES_KEY } from '../decorators/roles.decorator';
 import { UsersService } from 'src/users/users.service';
-import { JwtPayloadType } from '../types/jwt-payload.type';
+import { UserPayloadType } from '../types/jwt-payload.type';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -22,9 +22,9 @@ export class RolesGuard implements CanActivate {
       return true;
     }
 
-    const { user: payload } = context
+    const { userPayload: payload } = context
       .switchToHttp()
-      .getRequest<{ user: JwtPayloadType }>();
+      .getRequest<{ userPayload: UserPayloadType }>();
 
     const user = await this.usersService.findOne({ id: payload.id });
 

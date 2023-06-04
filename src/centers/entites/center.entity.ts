@@ -13,9 +13,9 @@ export class CenterEntity extends CommonEntity implements CenterType {
 
   city: CityEntity;
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: String })
   latitude: Prisma.Decimal;
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: String })
   longitude: Prisma.Decimal;
 }

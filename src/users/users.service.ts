@@ -12,6 +12,7 @@ export class UsersService {
       take: 20,
       orderBy: [{ createdAt: 'desc' }],
     },
+    employedCenter: true,
   };
 
   constructor(private readonly prisma: PrismaService) {}

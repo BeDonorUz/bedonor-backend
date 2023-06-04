@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { DonationRequestType } from './donation-request.type';
 
 @Injectable()
 export class DonationRequestsService {
@@ -9,24 +8,18 @@ export class DonationRequestsService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(
-    data: Prisma.DonationRequestUncheckedCreateInput,
-  ): Promise<DonationRequestType> {
+  async create(data: Prisma.DonationRequestUncheckedCreateInput) {
     return this.prisma.donationRequest.create({ data, include: this.include });
   }
 
-  async findOne(
-    where: Prisma.DonationRequestWhereUniqueInput,
-  ): Promise<DonationRequestType> {
+  async findOne(where: Prisma.DonationRequestWhereUniqueInput) {
     return this.prisma.donationRequest.findUniqueOrThrow({
       where,
       include: this.include,
     });
   }
 
-  async findMany(
-    where?: Prisma.DonationRequestWhereInput,
-  ): Promise<DonationRequestType[]> {
+  async findMany(where?: Prisma.DonationRequestWhereInput) {
     return this.prisma.donationRequest.findMany({
       where,
       include: this.include,
@@ -36,7 +29,7 @@ export class DonationRequestsService {
   async update(
     where: Prisma.DonationRequestWhereUniqueInput,
     data: Prisma.DonationUpdateInput,
-  ): Promise<DonationRequestType> {
+  ) {
     return this.prisma.donationRequest.update({
       data,
       where,
@@ -44,9 +37,7 @@ export class DonationRequestsService {
     });
   }
 
-  async delete(
-    where: Prisma.DonationRequestWhereUniqueInput,
-  ): Promise<DonationRequestType> {
+  async delete(where: Prisma.DonationRequestWhereUniqueInput) {
     return this.prisma.donationRequest.delete({ where, include: this.include });
   }
 }

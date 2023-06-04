@@ -44,6 +44,10 @@ model Donation {
   type        DonationTypeEnum
   userId      Int
   user        User @relation(fields: [userId], references: [id])
+  centerId    Int
+  center      Center @relation(fields: [centerId], references: [id])
+  requestId   Int?
+  request     DonationRequest? @relation(fields: [requestId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -69,6 +73,7 @@ model Center {
   latitude    Decimal
   longitude   Decimal
   requests    DonationRequest[]
+  donations   Donation[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -114,6 +119,7 @@ model DonationRequest {
   patronymic  String? @db.VarChar(64)
   type        DonationTypeEnum
   groups      BloodGroupsEnum[]
+  donations   Donation[]
   count       Int
   centerId    Int
   center      Center @relation(fields: [centerId], references: [id])

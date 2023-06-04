@@ -1,13 +1,8 @@
 import { BloodGroupsEnum, DonationTypeEnum } from '@prisma/client';
 import { CommonEntity } from '../../common/entities/common.entity';
-import { DonationRequestType } from '../donation-request.type';
-import { CenterEntity } from '../../centers/entites/center.entity';
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
-export class DonationRequestEntity
-  extends CommonEntity
-  implements DonationRequestType
-{
+export class DonationRequestEntity extends CommonEntity {
   id: number;
 
   firstName: string;
@@ -27,9 +22,6 @@ export class DonationRequestEntity
   centerId: number;
 
   dateTo: Date | null;
-
-  @ApiProperty({ type: OmitType(CenterEntity, ['city']) })
-  center: Omit<CenterEntity, 'city'>;
 
   createdAt: Date;
 

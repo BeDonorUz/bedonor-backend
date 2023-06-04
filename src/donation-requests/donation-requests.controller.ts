@@ -24,36 +24,31 @@ export class DonationRequestsController {
 
   @Post()
   @ApiCreatedResponse({ type: DonationRequestEntity })
-  async create(
-    @Body() dto: CreateDonationRequestDto,
-  ): Promise<DonationRequestEntity> {
+  async create(@Body() dto: CreateDonationRequestDto) {
     return this.donationRequestsService.create(dto);
   }
 
   @Get(':id')
   @ApiOkResponse({ type: DonationRequestEntity })
-  async findOne(@Param('id') id: number): Promise<DonationRequestEntity> {
+  async findOne(@Param('id') id: number) {
     return this.donationRequestsService.findOne({ id });
   }
 
   @Get()
   @ApiOkResponse({ type: DonationRequestEntity, isArray: true })
-  async findMany(): Promise<DonationRequestEntity[]> {
+  async findMany() {
     return this.donationRequestsService.findMany();
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: DonationRequestEntity })
-  async update(
-    @Param('id') id: number,
-    @Body() dto: UpdateDonationRequestDto,
-  ): Promise<DonationRequestEntity> {
+  async update(@Param('id') id: number, @Body() dto: UpdateDonationRequestDto) {
     return this.donationRequestsService.update({ id }, dto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: DonationRequestEntity })
-  async remove(@Param('id') id: number): Promise<DonationRequestEntity> {
+  async remove(@Param('id') id: number) {
     return this.donationRequestsService.delete({ id });
   }
 }

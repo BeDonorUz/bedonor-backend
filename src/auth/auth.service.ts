@@ -4,7 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginOutputDto } from './dto/login-output.dto';
 import { compare } from 'bcryptjs';
 import { LoginInputDto } from './dto/login-input.dto';
-import { JwtPayloadType } from './types/jwt-payload.type';
+import { UserPayloadType } from './types/jwt-payload.type';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +21,7 @@ export class AuthService {
       throw new UnauthorizedException();
     }
 
-    const payload: JwtPayloadType = {
+    const payload: UserPayloadType = {
       login: user.login,
       id: user.id,
       role: user.role,

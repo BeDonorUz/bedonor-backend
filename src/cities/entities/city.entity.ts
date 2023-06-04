@@ -7,9 +7,9 @@ export class CityEntity extends CommonEntity implements City {
 
   name: string;
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: String })
   latitude: Prisma.Decimal;
 
-  @ApiProperty({ type: Number })
+  @ApiProperty({ type: String })
   longitude: Prisma.Decimal;
 }
