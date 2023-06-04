@@ -1,10 +1,9 @@
 import { Prisma } from '@prisma/client';
 import { CommonEntity } from '../../common/entities/common.entity';
-import { CenterType } from '../center.type';
 import { CityEntity } from '../../cities/entities/city.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CenterEntity extends CommonEntity implements CenterType {
+export class CenterEntity extends CommonEntity {
   name: string;
 
   address: string;

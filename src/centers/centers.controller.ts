@@ -22,34 +22,31 @@ export class CentersController {
 
   @Post()
   @ApiCreatedResponse({ type: CenterEntity })
-  async create(@Body() dto: CreateCenterDto): Promise<CenterEntity> {
+  async create(@Body() dto: CreateCenterDto) {
     return this.centersService.create(dto);
   }
 
   @Get(':id')
   @ApiOkResponse({ type: CenterEntity })
-  async findOne(@Param('id') id: number): Promise<CenterEntity> {
+  async findOne(@Param('id') id: number) {
     return this.centersService.findOne({ id });
   }
 
   @Get()
   @ApiOkResponse({ type: CenterEntity, isArray: true })
-  async findMany(): Promise<CenterEntity[]> {
+  async findMany() {
     return this.centersService.findMany();
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: CenterEntity })
-  async update(
-    @Param('id') id: number,
-    @Body() dto: UpdateCenterDto,
-  ): Promise<CenterEntity> {
+  async update(@Param('id') id: number, @Body() dto: UpdateCenterDto) {
     return this.centersService.update({ id }, dto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: CenterEntity })
-  async remove(@Param('id') id: number): Promise<CenterEntity> {
+  async remove(@Param('id') id: number) {
     return this.centersService.delete({ id });
   }
 }

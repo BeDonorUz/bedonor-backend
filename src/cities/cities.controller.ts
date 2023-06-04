@@ -21,34 +21,31 @@ export class CitiesController {
 
   @Post()
   @ApiCreatedResponse({ type: CityEntity })
-  async create(@Body() dto: CreateCityDto): Promise<CityEntity> {
+  async create(@Body() dto: CreateCityDto) {
     return this.citiesService.create(dto);
   }
 
   @Get(':id')
   @ApiOkResponse({ type: CityEntity })
-  async findOne(@Param('id') id: number): Promise<CityEntity> {
+  async findOne(@Param('id') id: number) {
     return this.citiesService.findOne({ id });
   }
 
   @Get()
   @ApiOkResponse({ type: CityEntity, isArray: true })
-  async findMany(): Promise<CityEntity[]> {
+  async findMany() {
     return this.citiesService.findMany();
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: CityEntity })
-  async update(
-    @Param('id') id: number,
-    @Body() dto: UpdateCityDto,
-  ): Promise<CityEntity> {
+  async update(@Param('id') id: number, @Body() dto: UpdateCityDto) {
     return this.citiesService.update({ id }, dto);
   }
 
   @Delete(':id')
   @ApiOkResponse({ type: CityEntity })
-  async remove(@Param('id') id: number): Promise<CityEntity> {
+  async remove(@Param('id') id: number) {
     return this.citiesService.delete({ id });
   }
 }
