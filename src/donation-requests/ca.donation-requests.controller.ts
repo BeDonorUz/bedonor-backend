@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -25,6 +26,7 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UserPayloadType } from 'src/auth/types/jwt-payload.type';
 import { GetUserPayload } from 'src/users/decorators/get-user.decorator';
 import { UsersService } from 'src/users/users.service';
+import { FindDonationRequestsDto } from './dto/find-donation-requests.dto';
 
 const name: string = 'donation-requests';
 
@@ -71,10 +73,21 @@ export class DonationRequestsController {
 
   @Get()
   @ApiOkResponse({ type: DonationRequestEntity, isArray: true })
-  async findMany(@GetUserPayload() userPayload: UserPayloadType) {
+  async findMany(
+    @GetUserPayload() userPayload: UserPayloadType,
+    @Query() dto: FindDonationRequestsDto,
+  ) {
     const user = await this.usersServiceTs.findOne({ id: userPayload.id });
+    const { groups, cityId, ...data } = dto;
 
     return this.donationRequestsService.findMany({
+      ...data,
+      center: {
+        cityId,
+      },
+      groups: {
+        hasSome: groups,
+      },
       OR: [
         { status: DonationRequestStatusEnum.APPROVED },
         { centerId: user.employedCenterId },
