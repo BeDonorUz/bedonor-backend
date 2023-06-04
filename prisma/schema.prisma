@@ -39,11 +39,18 @@ enum DonationTypeEnum {
   PLATELETS
 }
 
+enum DonationStatusesEnum {
+  PENDING
+  APPROVED
+  DECLINED
+}
+
 model Donation {
   id          Int @id @default(autoincrement())
   type        DonationTypeEnum
+  status      DonationStatusesEnum
   userId      Int
-  user        User @relation(fields: [userId], references: [id])
+  donor       User @relation(fields: [userId], references: [id])
   centerId    Int
   center      Center @relation(fields: [centerId], references: [id])
   requestId   Int?

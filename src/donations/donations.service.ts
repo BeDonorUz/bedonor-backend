@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { Prisma, UserRolesEnum } from '@prisma/client';
+import { DonationStatusesEnum, Prisma, UserRolesEnum } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserPayloadType } from 'src/auth/types/jwt-payload.type';
 import { UsersService } from 'src/users/users.service';
@@ -11,8 +11,10 @@ export class DonationsService {
     private readonly usersService: UsersService,
   ) {}
 
-  async create(data: Prisma.DonationUncheckedCreateInput) {
-    return this.prisma.donation.create({ data });
+  async create(data: Omit<Prisma.DonationUncheckedCreateInput, 'status'>) {
+    return this.prisma.donation.create({
+      data: { ...data, status: DonationStatusesEnum.PENDING },
+    });
   }
 
   async findOne(
