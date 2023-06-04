@@ -7,11 +7,25 @@ import {
   Param,
   Patch,
   Post,
+  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { DonationRequestEntity } from './entiites/donation-request.entity';
 import { CreateDonationRequestDto } from './dto/create-donation-request.dto';
-import { UpdateDonationRequestDto } from './dto/update-donation-request.dto';
+import { CommonException } from 'src/utils/common.exception';
+import { DonationRequestStatusEnum, UserRolesEnum } from '@prisma/client';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { GetUserPayload } from 'src/users/decorators/get-user.decorator';
+import { UserPayloadType } from 'src/auth/types/jwt-payload.type';
 
 const name: string = 'donation-requests';
 
@@ -24,31 +38,52 @@ export class DonationRequestsController {
 
   @Post()
   @ApiCreatedResponse({ type: DonationRequestEntity })
-  async create(@Body() dto: CreateDonationRequestDto) {
-    return this.donationRequestsService.create(dto);
+  @ApiBearerAuth()
+  @Roles(UserRolesEnum.APPLICANT, UserRolesEnum.DONOR)
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  async create(
+    @GetUserPayload() userPayload: UserPayloadType,
+    @Body() dto: CreateDonationRequestDto,
+  ) {
+    return this.donationRequestsService.create({
+      ...dto,
+      applicantId: userPayload.id,
+    });
   }
 
   @Get(':id')
   @ApiOkResponse({ type: DonationRequestEntity })
-  async findOne(@Param('id') id: number) {
-    return this.donationRequestsService.findOne({ id });
+  async findOne(
+    @GetUserPayload() userPayload: UserPayloadType,
+    @Param('id') id: number,
+  ) {
+    return this.donationRequestsService.findOne({
+      id,
+      OR: [
+        { status: DonationRequestStatusEnum.APPROVED },
+        { applicantId: userPayload.id },
+      ],
+    });
   }
 
   @Get()
   @ApiOkResponse({ type: DonationRequestEntity, isArray: true })
   async findMany() {
-    return this.donationRequestsService.findMany();
+    return this.donationRequestsService.findMany({
+      status: DonationRequestStatusEnum.APPROVED,
+    });
   }
 
   @Patch(':id')
-  @ApiOkResponse({ type: DonationRequestEntity })
-  async update(@Param('id') id: number, @Body() dto: UpdateDonationRequestDto) {
-    return this.donationRequestsService.update({ id }, dto);
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async update() {
+    throw new UnauthorizedException();
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: DonationRequestEntity })
-  async remove(@Param('id') id: number) {
-    return this.donationRequestsService.delete({ id });
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async remove() {
+    throw new UnauthorizedException();
   }
 }

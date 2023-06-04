@@ -27,6 +27,7 @@ model User {
   patronymic        String? @db.VarChar(64)
   role              UserRolesEnum
   donations         Donation[]
+  donationRequests  DonationRequest[]
   employedCenter    Center? @relation(fields: [employedCenterId], references: [id])
   employedCenterId  Int?
   createdAt         DateTime @default(now())
@@ -50,11 +51,11 @@ model Donation {
   type        DonationTypeEnum
   status      DonationStatusesEnum
   userId      Int
-  donor       User @relation(fields: [userId], references: [id])
+  donor       User @relation(fields: [userId], references: [id], onDelete: NoAction)
   centerId    Int
   center      Center @relation(fields: [centerId], references: [id])
   requestId   Int?
-  request     DonationRequest? @relation(fields: [requestId], references: [id])
+  request     DonationRequest? @relation(fields: [requestId], references: [id], onDelete: NoAction)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -119,6 +120,12 @@ enum BloodGroupsEnum {
   Neg0
 }
 
+enum DonationRequestStatusEnum {
+  PENDING
+  APPROVED
+  OUTDATED
+}
+
 model DonationRequest {
   id          Int @id @default(autoincrement())
   firstName   String? @db.VarChar(64)
@@ -131,6 +138,9 @@ model DonationRequest {
   centerId    Int
   center      Center @relation(fields: [centerId], references: [id])
   dateTo      DateTime?
+  status      DonationRequestStatusEnum @default(PENDING)
+  applicantId Int
+  applicant   User @relation(fields: [applicantId], references: [id], onDelete: NoAction)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

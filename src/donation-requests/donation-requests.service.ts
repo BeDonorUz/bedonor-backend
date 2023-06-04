@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Cron } from '@nestjs/schedule';
+import { DonationRequestStatusEnum, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -10,8 +11,8 @@ export class DonationRequestsService {
     return this.prisma.donationRequest.create({ data });
   }
 
-  async findOne(where: Prisma.DonationRequestWhereUniqueInput) {
-    return this.prisma.donationRequest.findUniqueOrThrow({
+  async findOne(where: Prisma.DonationRequestWhereInput) {
+    return this.prisma.donationRequest.findFirstOrThrow({
       where,
     });
   }
@@ -23,16 +24,30 @@ export class DonationRequestsService {
   }
 
   async update(
-    where: Prisma.DonationRequestWhereUniqueInput,
-    data: Prisma.DonationUpdateInput,
+    where: Prisma.DonationRequestWhereInput,
+    data: Prisma.DonationRequestUpdateInput,
   ) {
-    return this.prisma.donationRequest.update({
+    return this.prisma.donationRequest.updateMany({
       data,
       where,
     });
   }
 
-  async delete(where: Prisma.DonationRequestWhereUniqueInput) {
-    return this.prisma.donationRequest.delete({ where });
+  async delete(where: Prisma.DonationRequestWhereInput) {
+    return this.prisma.donationRequest.deleteMany({ where });
+  }
+
+  @Cron('0 1 * * *')
+  async markOutdatedRequests() {
+    return this.prisma.donationRequest.updateMany({
+      where: {
+        dateTo: {
+          lt: new Date(),
+        },
+      },
+      data: {
+        status: DonationRequestStatusEnum.OUTDATED,
+      },
+    });
   }
 }

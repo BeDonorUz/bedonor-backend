@@ -41,10 +41,7 @@ export class CentersService {
     return this.prisma.center.delete({ where });
   }
 
-  private async _checkCenterAdminAttachment(
-    userId: number,
-    centerId: number,
-  ): Promise<void> {
+  private async _checkCenterAdminAttachment(userId: number, centerId: number) {
     const user = await this.usersService.findOne({ id: userId });
 
     if (user.employedCenterId !== centerId) {
