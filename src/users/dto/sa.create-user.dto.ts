@@ -1,10 +1,13 @@
 import {
   IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
   Length,
   MaxLength,
+  ValidateIf,
 } from 'class-validator';
 import { UserRolesEnum } from '../enum/user-roles.enum';
 
@@ -37,4 +40,11 @@ export class SACreateUserDto {
 
   @IsEnum(UserRolesEnum)
   role: UserRolesEnum;
+
+  @IsInt()
+  @IsPositive()
+  @ValidateIf(
+    (data: SACreateUserDto) => data.role === UserRolesEnum.CENTER_ADMIN,
+  )
+  employedCenterId?: number;
 }
