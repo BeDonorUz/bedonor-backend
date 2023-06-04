@@ -6,15 +6,13 @@ import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class DonationsService {
-  private readonly include: Prisma.DonationInclude = { user: true };
-
   constructor(
     private readonly prisma: PrismaService,
     private readonly usersService: UsersService,
   ) {}
 
   async create(data: Prisma.DonationUncheckedCreateInput) {
-    return this.prisma.donation.create({ data, include: this.include });
+    return this.prisma.donation.create({ data });
   }
 
   async findOne(
@@ -24,7 +22,6 @@ export class DonationsService {
     await this._filterDonationsAccess(userPayload, where);
     return this.prisma.donation.findFirstOrThrow({
       where,
-      include: this.include,
     });
   }
 
@@ -33,7 +30,7 @@ export class DonationsService {
     where: Prisma.DonationWhereInput = {},
   ) {
     await this._filterDonationsAccess(userPayload, where);
-    return this.prisma.donation.findMany({ where, include: this.include });
+    return this.prisma.donation.findMany({ where });
   }
 
   async update(
@@ -45,7 +42,6 @@ export class DonationsService {
     return this.prisma.donation.update({
       data,
       where,
-      include: this.include,
     });
   }
 
@@ -56,7 +52,7 @@ export class DonationsService {
     if (userPayload.role !== UserRolesEnum.SYSTEM_ADMIN) {
       throw new UnauthorizedException();
     }
-    return this.prisma.donation.delete({ where, include: this.include });
+    return this.prisma.donation.delete({ where });
   }
 
   private async _filterDonationsAccess(

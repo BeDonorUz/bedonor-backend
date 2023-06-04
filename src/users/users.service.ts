@@ -6,15 +6,6 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UsersService {
-  private readonly include: Prisma.UserInclude = {
-    _count: true,
-    donations: {
-      take: 20,
-      orderBy: [{ createdAt: 'desc' }],
-    },
-    employedCenter: true,
-  };
-
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateUserDto) {
@@ -25,19 +16,17 @@ export class UsersService {
     );
     return this.prisma.user.create({
       data: { ...dto, passwordHash },
-      include: this.include,
     });
   }
 
   async findOne(where: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findUniqueOrThrow({
       where,
-      include: this.include,
     });
   }
 
   async findMany(where?: Prisma.UserWhereInput) {
-    return this.prisma.user.findMany({ where, include: this.include });
+    return this.prisma.user.findMany({ where });
   }
 
   async update(
@@ -47,11 +36,10 @@ export class UsersService {
     return this.prisma.user.update({
       data,
       where,
-      include: this.include,
     });
   }
 
   async delete(where: Prisma.UserWhereUniqueInput) {
-    return this.prisma.user.delete({ where, include: this.include });
+    return this.prisma.user.delete({ where });
   }
 }
