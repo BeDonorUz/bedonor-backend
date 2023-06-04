@@ -6,12 +6,23 @@ import {
   Param,
   Patch,
   Post,
+  UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
+import { CommonException } from 'src/utils/common.exception';
+import { GetUserPayload } from './decorators/get-user.decorator';
+import { UserPayloadType } from 'src/auth/types/jwt-payload.type';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 const name: string = 'users';
 
@@ -22,34 +33,40 @@ export class UsersController {
 
   @Post()
   @ApiCreatedResponse({ type: UserEntity })
-  async create(@Body() dto: CreateUserDto): Promise<UserEntity> {
+  async create(@Body() dto: CreateUserDto) {
     return this.usersService.create(dto);
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity })
-  async findOne(@Param('id') id: number): Promise<UserEntity> {
+  async findOne(@Param('id') id: number) {
     return this.usersService.findOne({ id });
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity, isArray: true })
-  async findMany(): Promise<UserEntity[]> {
+  async findMany() {
     return this.usersService.findMany();
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: UserEntity })
   async update(
+    @GetUserPayload() userPayload: UserPayloadType,
     @Param('id') id: number,
     @Body() dto: UpdateUserDto,
-  ): Promise<UserEntity> {
+  ) {
+    if (id !== userPayload.id) {
+      throw new UnauthorizedException();
+    }
     return this.usersService.update({ id }, dto);
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: UserEntity })
-  async remove(@Param('id') id: number): Promise<UserEntity> {
-    return this.usersService.delete({ id });
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async remove() {
+    throw new UnauthorizedException();
   }
 }
