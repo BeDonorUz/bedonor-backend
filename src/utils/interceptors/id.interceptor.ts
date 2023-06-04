@@ -11,7 +11,10 @@ export class IdInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const req = context.switchToHttp().getRequest();
 
-    if (Object.prototype.hasOwnProperty.call(req.params, 'id')) {
+    if (
+      Object.prototype.hasOwnProperty.call(req, 'params') &&
+      Object.prototype.hasOwnProperty.call(req.params, 'id')
+    ) {
       req.params.id = +req.params.id;
     }
 

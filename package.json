@@ -1,5 +1,5 @@
 {
-  "name": "sample",
+  "name": "bedonor",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -13,6 +13,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "pr:gen": "prisma generate",
     "mig:gen": "prisma migrate dev --name",
     "mig:run": "prisma migrate deploy",
     "mig:res": "prisma migrate reset",
@@ -31,9 +32,11 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
-    "@prisma/client": "^4.1.0",
+    "@prisma/client": "^4.14.1",
+    "@types/bcryptjs": "^2.4.2",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
+    "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "express": "^4.18.1",
@@ -41,11 +44,12 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "pg": "^8.7.3",
-    "prisma": "^4.1.0",
+    "prisma": "^4.14.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "swagger-ui-express": "^4.4.0"
+    "swagger-ui-express": "^4.4.0",
+    "telegram-keyboard": "^2.3.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

@@ -1,5 +1,4 @@
-import { Controller, Post, UseGuards, Request, Body } from '@nestjs/common';
-import { LocalAuthGuard } from './strategies/local-auth.guard';
+import { Controller, Post, Request, Body } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { LoginOutputDto } from './dto/login-output.dto';
@@ -12,12 +11,11 @@ const name: string = 'auth';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(
     @Body() _: LoginInputDto,
     @Request() req: any,
   ): Promise<LoginOutputDto> {
-    return this.authService.login(req);
+    return this.authService.login(req.body);
   }
 }

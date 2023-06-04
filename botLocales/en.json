@@ -1,0 +1,23 @@
+{
+  "start": "Hi there!",
+  "help": "Help",
+  "button:how-to-become-donor": "How to become a donor❓",
+  "button:back": "⬅️ Back",
+  "how-to-become-donor": "A donor can be a person over 18 years old only after a medical examination. Medical examination of persons before donation of blood and its components and issuance of documents on their state of health are *free of charge*. \n\nBlood is collected by *the blood service of the state medical institution.*",
+  "button:where-to-donate-blood": "Where to donate blood🔍",
+  "choose-language": "Choose the language:",
+  "language-changed": "✅ The language has been changed",
+  "button:change-language": "⚙️ Language",
+  "button:need-donors": "❗️ Donors needed urgently ❗️",
+  "choose-city": "Choose city:",
+  "button:create-request": "I need donor 🗣",
+  "choose-center": "Choose center:",
+  "choose-donation-type": "Choose type of donation you need:",
+  "plasma": "Plasma",
+  "whole-blood": "Whole blood",
+  "platelets": "Platelets",
+  "choose-donations-count": "Choose needed donations count:",
+  "error": "Error happened",
+  "choose-blood-group": "Choose suitable blood groups:",
+  "button:done": "✅ Done"
+}

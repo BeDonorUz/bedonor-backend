@@ -9,6 +9,7 @@ services:
       - project
     ports:
       - 5021:3000
+      - 5555:5555
     volumes:
       - ${PWD}:/app
     env_file: .env
@@ -20,7 +21,7 @@ services:
     networks:
       - project
     ports:
-      - 5432:5432
+      - 6432:5432
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}

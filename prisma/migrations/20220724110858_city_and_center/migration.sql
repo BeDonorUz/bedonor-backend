@@ -12,6 +12,7 @@ CREATE TABLE "City" (
 CREATE TABLE "Center" (
     "id" SERIAL NOT NULL,
     "name" VARCHAR(128) NOT NULL,
+    "address" VARCHAR(128),
     "cityId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

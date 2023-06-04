@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { User } from '@prisma/client';
 import { JwtService } from '@nestjs/jwt';
 import { LoginOutputDto } from './dto/login-output.dto';
+import { compare } from 'bcryptjs';
+import { LoginInputDto } from './dto/login-input.dto';
+import { UserPayloadType } from './types/jwt-payload.type';
 
 @Injectable()
 export class AuthService {
@@ -11,23 +13,22 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(
-    login: string,
-    pass: string,
-  ): Promise<Omit<User, 'password'> | null> {
-    const user = await this.usersService.findOne({ login });
-    if (user && user.password === pass) {
-      const { password, ...result } = user;
-      return result;
+  async login(data: LoginInputDto): Promise<LoginOutputDto> {
+    const user = await this.usersService.findOne({ login: data.login });
+    const isPasswordCorrect = await compare(data.password, user.passwordHash);
+
+    if (!isPasswordCorrect) {
+      throw new UnauthorizedException();
     }
 
-    return null;
-  }
+    const payload: UserPayloadType = {
+      login: user.login,
+      id: user.id,
+      role: user.role,
+    };
 
-  login(user: User): LoginOutputDto {
-    const payload = { login: user.login, userId: user.id };
     return {
-      accessToken: this.jwtService.sign(payload),
+      accessToken: await this.jwtService.signAsync(payload),
     };
   }
 }

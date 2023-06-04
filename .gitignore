@@ -1,3 +1,9 @@
+# pnpm
+.pnpm-store
+
+# telegraf
+sessions.json
+
 # secrets
 .env
 
