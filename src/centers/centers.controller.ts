@@ -1,17 +1,20 @@
 import { CentersService } from './centers.service';
-import { CreateCenterDto } from './dto/create-center.dto';
-import { UpdateCenterDto } from './dto/update-center.dto';
 import {
-  Body,
   Controller,
   Delete,
   Get,
   Param,
   Patch,
   Post,
+  UnauthorizedException,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
 import { CenterEntity } from './entites/center.entity';
+import { CommonException } from 'src/utils/common.exception';
 
 const name: string = 'centers';
 
@@ -21,9 +24,9 @@ export class CentersController {
   constructor(private readonly centersService: CentersService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: CenterEntity })
-  async create(@Body() dto: CreateCenterDto) {
-    return this.centersService.create(dto);
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async create() {
+    throw new UnauthorizedException();
   }
 
   @Get(':id')
@@ -39,14 +42,14 @@ export class CentersController {
   }
 
   @Patch(':id')
-  @ApiOkResponse({ type: CenterEntity })
-  async update(@Param('id') id: number, @Body() dto: UpdateCenterDto) {
-    return this.centersService.update({ id }, dto);
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async update() {
+    throw new UnauthorizedException();
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: CenterEntity })
-  async remove(@Param('id') id: number) {
-    return this.centersService.delete({ id });
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async remove() {
+    throw new UnauthorizedException();
   }
 }

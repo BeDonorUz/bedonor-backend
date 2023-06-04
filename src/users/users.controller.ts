@@ -13,6 +13,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
@@ -28,6 +29,7 @@ const name: string = 'users';
 
 @Controller(name)
 @ApiTags(name)
+@ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -38,20 +40,19 @@ export class UsersController {
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity })
   async findOne(@Param('id') id: number) {
     return this.usersService.findOne({ id });
   }
 
   @Get()
-  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity, isArray: true })
   async findMany() {
     return this.usersService.findMany();
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
   @ApiOkResponse({ type: UserEntity })
   async update(
     @GetUserPayload() userPayload: UserPayloadType,

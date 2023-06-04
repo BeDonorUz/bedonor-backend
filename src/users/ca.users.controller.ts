@@ -6,24 +6,27 @@ import {
   Param,
   Patch,
   Post,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import {
   ApiBearerAuth,
-  ApiCreatedResponse,
   ApiOkResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
-import { SACreateUserDto } from './dto/sa.create-user.dto';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { AuthGuard } from '@nestjs/passport';
+import { CommonException } from 'src/utils/common.exception';
+import { GetUserPayload } from './decorators/get-user.decorator';
+import { UserPayloadType } from 'src/auth/types/jwt-payload.type';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
-import { UserRolesEnum } from '@prisma/client';
-import { SAUpdateUserDto } from './dto/sa.update-user.dto';
+import { UserRolesEnum } from './enum/user-roles.enum';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { CAUpdateUserDto } from './dto/ca.update-user.dto';
 
-const name: string = 'sa/users';
+const name: string = 'ca/users';
 
 @Controller(name)
 @ApiTags(name)
@@ -35,35 +38,39 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: UserEntity })
-  async create(@Body() dto: SACreateUserDto): Promise<UserEntity> {
-    return this.usersService.create(dto);
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async create() {
+    throw new UnauthorizedException();
   }
 
   @Get(':id')
   @ApiOkResponse({ type: UserEntity })
-  async findOne(@Param('id') id: number): Promise<UserEntity> {
+  async findOne(@Param('id') id: number) {
     return this.usersService.findOne({ id });
   }
 
   @Get()
   @ApiOkResponse({ type: UserEntity, isArray: true })
-  async findMany(): Promise<UserEntity[]> {
+  async findMany() {
     return this.usersService.findMany();
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: UserEntity })
   async update(
+    @GetUserPayload() userPayload: UserPayloadType,
     @Param('id') id: number,
-    @Body() dto: SAUpdateUserDto,
-  ): Promise<UserEntity> {
+    @Body() dto: CAUpdateUserDto,
+  ) {
+    if (id !== userPayload.id) {
+      throw new UnauthorizedException();
+    }
     return this.usersService.update({ id }, dto);
   }
 
   @Delete(':id')
-  @ApiOkResponse({ type: UserEntity })
-  async remove(@Param('id') id: number): Promise<UserEntity> {
-    return this.usersService.delete({ id });
+  @ApiUnauthorizedResponse({ type: CommonException })
+  async remove() {
+    throw new UnauthorizedException();
   }
 }
