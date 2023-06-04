@@ -6,19 +6,29 @@ import {
   Patch,
   Post,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { CitiesService } from './cities.service';
 import {
+  ApiBearerAuth,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { CityEntity } from './entities/city.entity';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { UserRolesEnum } from '@prisma/client';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CommonException } from 'src/utils/common.exception';
 
-const name: string = 'cities';
+const name: string = 'ca/cities';
 @Controller(name)
 @ApiTags(name)
+@Roles(UserRolesEnum.CENTER_ADMIN)
+@UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
+@ApiBearerAuth()
 export class CitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
