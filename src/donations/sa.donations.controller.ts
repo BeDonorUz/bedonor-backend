@@ -72,7 +72,10 @@ export class SADonationsController {
 
   @Delete(':id')
   @ApiUnauthorizedResponse({ type: CommonException })
-  async remove() {
-    throw new UnauthorizedException();
+  async remove(
+    @GetUserPayload() userPayload: UserPayloadType,
+    @Param('id') id: number,
+  ) {
+    return this.donationsService.delete(userPayload, { id });
   }
 }
