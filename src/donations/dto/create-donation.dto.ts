@@ -12,4 +12,8 @@ export class CreateDonationDto {
   @IsInt()
   @IsPositive()
   centerId: number;
+
+  @IsInt()
+  @IsPositive()
+  requestId: number;
 }

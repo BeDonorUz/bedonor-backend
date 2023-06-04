@@ -6,7 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { DonationsService } from './donations.service';
