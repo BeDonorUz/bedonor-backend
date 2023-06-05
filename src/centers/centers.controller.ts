@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UnauthorizedException,
 } from '@nestjs/common';
 import {
@@ -37,8 +38,9 @@ export class CentersController {
 
   @Get()
   @ApiOkResponse({ type: CenterEntity, isArray: true })
-  async findMany() {
-    return this.centersService.findMany();
+  async findMany(@Query('cityId') cityIdSrc: string) {
+    const cityId = cityIdSrc ? Number(cityIdSrc) : undefined;
+    return this.centersService.findMany({ cityId });
   }
 
   @Patch(':id')

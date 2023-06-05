@@ -1,4 +1,4 @@
-import { CreateCityDto } from './dto/create-city.dto';
+import { SACreateCityDto } from './dto/sa.create-city.dto';
 import {
   Body,
   Controller,
@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CitiesService } from './cities.service';
-import { UpdateCityDto } from './dto/update-city.dto';
+import { SAUpdateCityDto } from './dto/sa.update-city.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -30,12 +30,12 @@ const name: string = 'sa/cities';
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-export class CitiesController {
+export class SACitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
   @Post()
   @ApiCreatedResponse({ type: CityEntity })
-  async create(@Body() dto: CreateCityDto) {
+  async create(@Body() dto: SACreateCityDto) {
     return this.citiesService.create(dto);
   }
 
@@ -53,7 +53,7 @@ export class CitiesController {
 
   @Patch(':id')
   @ApiOkResponse({ type: CityEntity })
-  async update(@Param('id') id: number, @Body() dto: UpdateCityDto) {
+  async update(@Param('id') id: number, @Body() dto: SAUpdateCityDto) {
     return this.citiesService.update({ id }, dto);
   }
 

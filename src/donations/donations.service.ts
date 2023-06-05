@@ -62,7 +62,7 @@ export class DonationsService {
     where: Prisma.DonationWhereInput = {},
   ) {
     if (userPayload.role === UserRolesEnum.DONOR) {
-      where.userId = userPayload.id;
+      where.donorId = userPayload.id;
     }
     if (userPayload.role === UserRolesEnum.CENTER_ADMIN) {
       const user = await this.usersService.findOne({ id: userPayload.id });

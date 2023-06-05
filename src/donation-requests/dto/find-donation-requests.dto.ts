@@ -1,57 +1,11 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { DonationTypeEnum, BloodGroupsEnum } from '@prisma/client';
-import {
-  IsDate,
-  IsInt,
-  IsPositive,
-  Max,
-  Min,
-  IsEnum,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { IsInt, IsPositive } from 'class-validator';
+import { CreateDonationRequestDto } from './create-donation-request.dto';
 
-export class FindDonationRequestsDto {
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  firstName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  lastName: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  patronymic: string;
-
-  @IsInt()
-  @Min(1)
-  @Max(10)
-  count: number;
-
-  @IsOptional()
-  @IsDate()
-  dateTo?: Date;
-
-  @IsInt()
-  @IsPositive()
-  centerId: number;
-
+export class FindDonationRequestsDto extends PartialType(
+  CreateDonationRequestDto,
+) {
   @IsInt()
   @IsPositive()
   cityId: number;
-
-  @ApiProperty({ enum: DonationTypeEnum })
-  @IsEnum(DonationTypeEnum)
-  type: DonationTypeEnum;
-
-  @ApiProperty({ enum: BloodGroupsEnum, isArray: true })
-  @IsEnum(BloodGroupsEnum, { each: true })
-  groups: BloodGroupsEnum[];
 }

@@ -9,7 +9,9 @@ export class DonationRequestEntity extends CommonEntity {
 
   lastName: string;
 
-  patronymic: string | null;
+  patronymic?: string;
+
+  applicantId: number;
 
   @ApiProperty({ enum: DonationTypeEnum })
   type: DonationTypeEnum;
@@ -21,7 +23,7 @@ export class DonationRequestEntity extends CommonEntity {
 
   centerId: number;
 
-  dateTo: Date | null;
+  dateTo?: Date;
 
   createdAt: Date;
 

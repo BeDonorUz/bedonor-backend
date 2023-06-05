@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsNumber, IsString, MaxLength } from 'class-validator';
 
-export class CreateCityDto {
+export class SACreateCityDto {
   @IsString()
   @IsNotEmpty()
   @MaxLength(64)

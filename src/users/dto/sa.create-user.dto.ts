@@ -1,43 +1,9 @@
-import {
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsPositive,
-  IsString,
-  Length,
-  MaxLength,
-  ValidateIf,
-} from 'class-validator';
+import { IsEnum, IsInt, IsPositive, ValidateIf } from 'class-validator';
 import { UserRolesEnum } from '../enum/user-roles.enum';
+import { CreateUserDto } from './create-user.dto';
+import { OmitType } from '@nestjs/swagger';
 
-export class SACreateUserDto {
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  login: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @Length(8, 128)
-  password: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  firstName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  lastName: string;
-
-  @IsOptional()
-  @IsString()
-  @IsNotEmpty()
-  @MaxLength(64)
-  patronymic: string;
-
+export class SACreateUserDto extends OmitType(CreateUserDto, ['role']) {
   @IsEnum(UserRolesEnum)
   role: UserRolesEnum;
 

@@ -13,6 +13,11 @@ export class CreateCenterDto {
   @MaxLength(128)
   name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(256)
+  address: string;
+
   @IsNumber()
   latitude: number;
 

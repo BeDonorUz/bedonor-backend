@@ -9,7 +9,7 @@ CREATE TYPE "BotLanguagesEnum" AS ENUM ('UZ', 'EN', 'RU');
 
 -- AlterEnum
 BEGIN;
-CREATE TYPE "BloodGroupsEnum_new" AS ENUM ('PosA', 'PosB', 'PosAB', 'Pos0', 'NegA', 'NegB', 'NegAB', 'Neg0');
+CREATE TYPE "BloodGroupsEnum_new" AS ENUM ('PosA', 'PosB', 'PosAB', 'PosO', 'NegA', 'NegB', 'NegAB', 'NegO');
 ALTER TABLE "DonationRequest" ALTER COLUMN "groups" TYPE "BloodGroupsEnum_new"[] USING ("groups"::text::"BloodGroupsEnum_new"[]);
 ALTER TYPE "BloodGroupsEnum" RENAME TO "BloodGroupsEnum_old";
 ALTER TYPE "BloodGroupsEnum_new" RENAME TO "BloodGroupsEnum";

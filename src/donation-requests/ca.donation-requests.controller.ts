@@ -28,7 +28,7 @@ import { GetUserPayload } from 'src/users/decorators/get-user.decorator';
 import { UsersService } from 'src/users/users.service';
 import { FindDonationRequestsDto } from './dto/find-donation-requests.dto';
 
-const name: string = 'donation-requests';
+const name: string = 'ca/donation-requests';
 
 @Controller(name)
 @ApiTags(name)
@@ -36,7 +36,7 @@ const name: string = 'donation-requests';
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-export class DonationRequestsController {
+export class CADonationRequestsController {
   constructor(
     private readonly donationRequestsService: DonationRequestsService,
     private readonly usersServiceTs: UsersService,

@@ -34,7 +34,7 @@ const name: string = 'ca/users';
 @Roles(UserRolesEnum.SYSTEM_ADMIN)
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
-export class UsersController {
+export class CAUsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()

@@ -8,6 +8,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new IdInterceptor());
+  app.setGlobalPrefix('/api');
 
   const config = new DocumentBuilder()
     .setTitle(`${process.env.APP_NAME} Docs`)
@@ -15,7 +16,7 @@ async function bootstrap() {
     .setVersion(process.env.VERSION)
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('/api/docs', app, document);
 
   await app.listen(3000);
 }

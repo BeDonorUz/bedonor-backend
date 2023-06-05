@@ -29,7 +29,7 @@ const name: string = 'ca/cities';
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-export class CitiesController {
+export class CACitiesController {
   constructor(private readonly citiesService: CitiesService) {}
 
   @Post()

@@ -36,7 +36,7 @@ const name: string = 'ca/center-demands';
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-export class CenterDemandsController {
+export class CACenterDemandsController {
   constructor(
     private readonly centerDemandsService: CenterDemandsService,
     private readonly usersService: UsersService,

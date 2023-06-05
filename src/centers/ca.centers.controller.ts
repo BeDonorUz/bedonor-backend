@@ -34,7 +34,7 @@ const name: string = 'ca/centers';
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
-export class CentersController {
+export class CACentersController {
   constructor(private readonly centersService: CentersService) {}
 
   @Post()

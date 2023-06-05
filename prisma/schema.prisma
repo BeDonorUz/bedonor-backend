@@ -42,6 +42,7 @@ enum DonationTypeEnum {
 
 enum DonationStatusesEnum {
   PENDING
+  APPROVE_REQUESTED
   APPROVED
   DECLINED
 }
@@ -50,8 +51,8 @@ model Donation {
   id          Int @id @default(autoincrement())
   type        DonationTypeEnum
   status      DonationStatusesEnum
-  userId      Int
-  donor       User @relation(fields: [userId], references: [id], onDelete: NoAction)
+  donorId      Int
+  donor       User @relation(fields: [donorId], references: [id], onDelete: NoAction)
   centerId    Int
   center      Center @relation(fields: [centerId], references: [id])
   requestId   Int?
@@ -114,11 +115,11 @@ enum BloodGroupsEnum {
   PosA
   PosB
   PosAB
-  Pos0
+  PosO
   NegA
   NegB
   NegAB
-  Neg0
+  NegO
 }
 
 enum DonationRequestStatusEnum {

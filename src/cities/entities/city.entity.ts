@@ -1,10 +1,8 @@
 import { CommonEntity } from '../../common/entities/common.entity';
-import { City, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CityEntity extends CommonEntity implements City {
-  id: number;
-
+export class CityEntity extends CommonEntity {
   name: string;
 
   @ApiProperty({ type: String })

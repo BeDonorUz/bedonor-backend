@@ -27,7 +27,7 @@ import { UserRolesEnum } from '@prisma/client';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 
-const name: string = 'donation-requests';
+const name: string = 'sa/donation-requests';
 
 @Controller(name)
 @ApiTags(name)
@@ -35,7 +35,7 @@ const name: string = 'donation-requests';
 @Roles(UserRolesEnum.SYSTEM_ADMIN)
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
-export class DonationRequestsController {
+export class SADonationRequestsController {
   constructor(
     private readonly donationRequestsService: DonationRequestsService,
   ) {}

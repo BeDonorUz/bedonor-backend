@@ -7,7 +7,7 @@ export class CreateDonationDto {
 
   @IsInt()
   @IsPositive()
-  userId: number;
+  donorId: number;
 
   @IsInt()
   @IsPositive()

@@ -3,8 +3,6 @@ import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { UserRolesEnum } from '@prisma/client';
 
 export class UserPrivateEntity extends CommonEntity {
-  id: number;
-
   login: string;
 
   passwordHash: string;

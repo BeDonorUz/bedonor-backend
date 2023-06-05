@@ -31,7 +31,7 @@ const name: string = 'sa/users';
 @Roles(UserRolesEnum.SYSTEM_ADMIN)
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
-export class UsersController {
+export class SAUsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
